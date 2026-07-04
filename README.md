@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Hextra Starter Template
 
 [![Deploy Hugo site to Pages](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml/badge.svg)](https://github.com/imfing/hextra-starter-template/actions/workflows/pages.yaml)
@@ -78,7 +77,3 @@ hugo mod tidy
 
 See [Update modules](https://gohugo.io/hugo-modules/use-modules/#update-modules) for more details.
 
-||||||| (empty tree)
-=======
-# jmltoolkit.github.io
->>>>>>> 713f01f (first commit)
