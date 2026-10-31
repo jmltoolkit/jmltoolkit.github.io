@@ -126,7 +126,7 @@ data class VerificationCondition(
   received, then again with the final status), and both `isCancelled` and
   `timeoutMillis` abort a stuck solver to `UNKNOWN` instead of blocking forever.
 * Each condition's `obligation` is the *negated* formula asserted under its
-  `:named` block — see [Proof Obligations & SMT Encoding](obligations/).
+  `:named` block — see [Proof Obligations & SMT Encoding](../obligations/).
 
 ## `VcgOptions`
 
