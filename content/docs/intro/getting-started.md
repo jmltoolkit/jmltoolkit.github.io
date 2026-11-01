@@ -7,52 +7,56 @@ weight: 1
 
 ## Setup
 
-The project binaries are available in Maven Central.
+The project binaries are published to Maven Central under the
+`io.github.jmltoolkit` group. Add the parser — which includes the JML
+extensions — to your build:
 
-We strongly advise users to adopt Maven, Gradle or another build system for their projects.
-If you are not familiar with them we suggest taking a look at the maven quickstart projects
-([javaparser-maven-sample](https://github.com/javaparser/javaparser-maven-sample),
+**Maven**:
+
+```xml
+<dependency>
+    <groupId>io.github.jmltoolkit</groupId>
+    <artifactId>jmlparser-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+**Gradle**:
+
+```kotlin
+implementation("io.github.jmltoolkit:jmlparser-core:1.0.0")
+```
+
+We strongly advise users to adopt Maven, Gradle or another build system for
+their projects. If you are not familiar with them we suggest taking a look at
+the JavaParser quickstart projects ([javaparser-maven-sample](https://github.com/javaparser/javaparser-maven-sample),
 [javasymbolsolver-maven-sample](https://github.com/javaparser/javasymbolsolver-maven-sample)).
 
-Just add the following to your maven configuration or tailor to your own dependency management system.
+`jmlparser-core` parses Java source code — including JML annotations — into an
+abstract syntax tree that you can traverse and manipulate. If you also need to
+*analyze* that AST, add the symbol solver; it brings the core along
+transitively:
 
 **Maven**:
 
 ```xml
 <dependency>
-    <groupId>org.key-project.proofjava</groupId>
-    <artifactId>javaparser-symbol-solver-core</artifactId>
-    <version>3.28.0-J8.0-K13.5</version>
+    <groupId>io.github.jmltoolkit</groupId>
+    <artifactId>jmlparser-symbol-solver-core</artifactId>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 **Gradle**:
 
-```
-implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.28.0-J8.0-K13.5'
-```
-
-Since Version 3.5.10, the JavaParser project includes the JavaSymbolSolver.
-While JavaParser generates an Abstract Syntax Tree, JavaSymbolSolver analyzes that AST and is able to find
-the relation between an element and its declaration (e.g. for a variable name it could be a parameter of a method, providing information about its type, position in the AST, ect).
-
-Using the dependency above will add both JavaParser and JavaSymbolSolver to your project. If you only need the core functionality of parsing Java source code in order to traverse and manipulate the generated AST, you can reduce your projects boilerplate by only including JavaParser to your project:
-
-**Maven**:
-
-```xml
-<dependency>
-    <groupId>org.key-project.proofjava</groupId>
-    <artifactId>javaparser-core</artifactId>
-    <version>3.28.0-J8.0-K13.5</version>
-</dependency>
+```kotlin
+implementation("io.github.jmltoolkit:jmlparser-symbol-solver-core:1.0.0")
 ```
 
-**Gradle**:
-
-```
-implementation 'com.github.javaparser:javaparser-core:3.28.0-J8.0-K13.5'
-```
+While the parser generates the AST, the symbol solver analyzes it and finds the
+relation between an element and its declaration (e.g. for a variable name it
+could be a parameter of a method, providing its type, position in the AST,
+etc.).
 
 
 

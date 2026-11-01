@@ -3,7 +3,7 @@ title: JMLtk -- JML Toolkit
 toc: false
 ---
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.javaparser/javaparser-core.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.javaparser%22%20AND%20a%3A%22javaparser-core%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.jmltoolkit/jmlparser-core.svg)](https://central.sonatype.com/artifact/io.github.jmltoolkit/jmlparser-core)
 [![Build Status](https://travis-ci.org/javaparser/javaparser.svg?branch=master)](https://travis-ci.org/javaparser/javaparser)
 [![Coverage Status](https://codecov.io/gh/javaparser/javaparser/branch/master/graphs/badge.svg?branch=master)](https://app.codecov.io/gh/javaparser/javaparser?branch=master)
 [![License LGPL-3/Apache-2.0](https://img.shields.io/badge/license-LGPL--3%2FApache--2.0-blue.svg)](https://github.com/jmltoolkit/jmltk/blob/main/LICENSE)
