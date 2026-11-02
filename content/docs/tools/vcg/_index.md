@@ -63,6 +63,15 @@ answer **unsat** for the obligation to hold. See
   (`equals`, `charAt`/`codePointAt`, `concat`, `indexOf(int/char)`,
   `substring`, `startsWith`, `replace(char,char)`), so `String`-heavy methods
   verify instead of being rejected as unrefined library calls.
+* **Quantifiers (P6.1)** — a JML `\sum` with a *bounded* integer range and a
+  *direct array-read body* (`\sum int j; 0 <= j && j < n; a[j]`) compiles to a
+  lazily-declared recursive SMT summation that unfolds along the index range, so
+  KeY's firstTouch 08 for-each sum
+  (`maintaining s == \sum int j; 0 <= j && j < \index; a[j]`) verifies in both
+  modes over symbolic ranges (`a.length`, the KeY `\index`). See the [worked
+  example](obligations/). Other shapes (no
+  array-read term, no upper bound, extra range conjuncts, non-monotone bodies)
+  are rejected with structured diagnostics.
 * **Diagnostics** — constructs the engine cannot model (lambdas, method
   references, anonymous classes, multi-dimensional arrays, …) are rejected with
   structured `UnsupportedFeatureException` diagnostics carrying the source
@@ -137,5 +146,5 @@ editor, without leaving it. See the [LSP](../lsp/) documentation.
   programmatically.
 * The soundness pass that closed the semantic gaps between the encoded model
   and Java/JML is documented in `doc/vcg-semantics-plan.md` in the source
-  repository (phases P1.1–P4.3); the remaining divergences are listed in the
+  repository (phases P1.1–P6.1); the remaining divergences are listed in the
   [PR description](https://github.com/jmltoolkit/jmltk/pull/69).

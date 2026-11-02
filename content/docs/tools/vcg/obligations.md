@@ -268,3 +268,53 @@ proofs do not need the axioms at all:
 ```
 
 (97/98 are the UTF-16 codes of `'a'`/`'b'`.)
+
+### JML `\sum` — a bounded summation (P6.1)
+
+A JML `\sum` with a *bounded* integer range and a *direct array-read body* is
+the generalized-quantifier shape the VCG models — this is KeY's firstTouch
+08-Java5 for-each sum (the KeY loop-position pseudo-variable `\index` binds the
+type-tagged loop-counter register in the loop contract):
+
+```java
+//@ requires a != null;
+//@ ensures \result == (\sum int j; 0 <= j && j < a.length; a[j]);
+int sum() {
+    int s = 0;
+    /*@ maintaining s == (\sum int j; 0 <= j && j < \index; a[j]);
+      @ maintaining 0 <= \index && \index <= a.length;
+      @ decreasing a.length - \index;
+      @ assignable \strictly_nothing;
+      @*/
+    for (int i : a) s += i;
+    return s;
+}
+```
+
+`\sum int j; lo <= j && j < hi; a[j]` becomes an application of a *recursive
+summation* over the array, declared once per query (`I`/`E` are the mode's
+index/element sorts: `Int` in UNBOUNDED, `(_ BitVec 32)` in BOUNDED):
+
+```lisp {filename="KeyFor — jmlSum, abridged"}
+(define-fun-rec jmlSum ((a (Array I E)) (lo I) (hi I)) E
+  (ite (<= hi lo) 0 (+ (jmlSum a lo (- hi 1)) (select a (- hi 1)))))
+(assert (forall ((a (Array I E)) (lo I) (hi I))
+  (! (= (jmlSum a lo (+ hi 1)) (+ (jmlSum a lo hi) (select a hi)))
+     :pattern ((jmlSum a lo (+ hi 1))))))
+```
+
+The `define-fun-rec` *definition* unrolls the sum downwards (`hi <= lo` → `0`;
+otherwise the sum up to `hi − 1` plus `a[hi − 1]`). The quantified *recurrence*
+with its `(+ hi 1)` E-matching trigger hands Z3 the induction step — it drives
+the invariant-preservation and postcondition obligations over **symbolic** upper
+bounds (`a.length`, `\index`), and without the trigger the recurrence stays
+inert.
+
+BOUNDED `\sum` queries fold length terms of *constant array symbols*
+(`bv$length a` → a shared implicit `$len_a` constant plus one ground
+non-negativity assert) instead of declaring the per-sort length function. The
+fold is what keeps the queries terminating: under the recurrence axioms Z3's
+recursive-function instantiation stalls against an explicitly `declare-const`ed
+length symbol but answers `unsat` immediately against the same symbol used
+implicitly. UNBOUNDED and non-`\sum` BOUNDED queries keep the declared
+`int$length`/`bv$length` functions, so their bytes are untouched.
