@@ -104,6 +104,15 @@ was found (sat), `????` that the solver could not decide. The condition id has
 the form `<class>#<method>(<params>)#<kind>-<n>@<line>:<column>`; the run ends
 with a `N conditions, M failing` summary.
 
+{{< callout type="info" >}}
+`????`/UNKNOWN is a solver-side outcome: Z3 found no model and could not prove
+the (negated) obligation. Quantified bit-vector queries — e.g. a `\exists` over
+array indices in BOUNDED mode — are the common case, and Z3 older than 4.15 may
+search them indefinitely instead of deciding. The repository's CI installs
+**Z3 4.15.4** (works on Linux/macOS/Windows), matching local development; use
+4.15 or newer for reliable verdicts on quantifier-heavy contracts.
+{{< /callout >}}
+
 ### Options
 
 | Option | Meaning |
