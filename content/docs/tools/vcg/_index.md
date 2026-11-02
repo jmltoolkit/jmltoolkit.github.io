@@ -63,15 +63,18 @@ answer **unsat** for the obligation to hold. See
   (`equals`, `charAt`/`codePointAt`, `concat`, `indexOf(int/char)`,
   `substring`, `startsWith`, `replace(char,char)`), so `String`-heavy methods
   verify instead of being rejected as unrefined library calls.
-* **Quantifiers (P6.1)** — a JML `\sum` with a *bounded* integer range and a
-  *direct array-read body* (`\sum int j; 0 <= j && j < n; a[j]`) compiles to a
-  lazily-declared recursive SMT summation that unfolds along the index range, so
-  KeY's firstTouch 08 for-each sum
+* **Quantifiers (P6.1)** — JML binders `\forall`, `\exists` and `\sum` are
+  modeled in their classic form `Binder Type v; range; body`; every other
+  binder (`\num_of`, `\min`, `\max`, `\product`, …) and the element/range-domain
+  binding forms (`\forall int e : a; …`) are rejected with structured
+  diagnostics. A `\sum` with a *bounded* integer range and a *direct array-read
+  body* compiles to a lazily-declared recursive SMT summation that unfolds along
+  the index range, so KeY's firstTouch 08 for-each sum
   (`maintaining s == \sum int j; 0 <= j && j < \index; a[j]`) verifies in both
-  modes over symbolic ranges (`a.length`, the KeY `\index`). See the [worked
-  example](obligations/). Other shapes (no
-  array-read term, no upper bound, extra range conjuncts, non-monotone bodies)
-  are rejected with structured diagnostics.
+  modes over symbolic ranges (`a.length`, the KeY `\index`). See
+  [JML Binders & Quantified Expressions](binders/) for the JML↔SMT
+  formalization of every form, and the [worked example](obligations/) for the
+  `\sum` encoding in full.
 * **Diagnostics** — constructs the engine cannot model (lambdas, method
   references, anonymous classes, multi-dimensional arrays, …) are rejected with
   structured `UnsupportedFeatureException` diagnostics carrying the source
@@ -140,6 +143,9 @@ editor, without leaving it. See the [LSP](../lsp/) documentation.
 
 ## Further reading
 
+* [JML Binders & Quantified Expressions](binders/) — which binders are
+  modeled, how the range is formalized (`\forall` guards, `\exists` conjoins,
+  `\sum` becomes a recursive summation), and the JML↔SMT examples.
 * [Proof Obligations & SMT Encoding](obligations/) — what a proof obligation
   is, every obligation kind, and real encoded examples.
 * [API](api/) — using the `Vcg`, `VcgResult` and `VcgFacade` API
