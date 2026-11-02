@@ -293,9 +293,29 @@ Inside method bodies, JML contributes statements (`ast/jml/stmt`):
 | `refining` | refinement between spec levels (`JmlRefiningStmt`) | `//@ refining ...` |
 | `begin` / `end` | block markers (`JmlBeginStmt` / `JmlEndStmt`) | `//@ begin ... //@ end` |
 | `unreachable` | marks dead code (`JmlUnreachableStmt`) | `//@ unreachable;` |
+| `merge_point` | state-merging / abstraction point (`JmlMergePointStmt`) | `//@ merge_point \by "MergeByPredicateAbstraction" \lattice conjunctive;` |
 
 In addition, spec-only expressions can appear as statements via
 `JmlExpressionStmt`.
+
+### Merge points
+
+A state-merging (abstraction) point tells the verification tool where and how
+to merge symbolic execution states, as used by KeY's state-merging:
+
+```java
+//@ merge_point \by "MergeByPredicateAbstraction"
+//@     \lattice conjunctive
+//@     \predicate (int x) : x >= 0, x == \old(b) || x == -\old(b);
+```
+
+All three options are optional and must appear in this fixed order: `\by`,
+then `\lattice`, then `\predicate`. The values of `\by` and `\lattice` may be
+given as a string literal or as a plain identifier; both forms are normalised
+to a `StringLiteralExpr` in the AST. `\predicate` binds a variable of the given
+type and lists the abstraction predicates separated by commas. AST node:
+`JmlMergePointStmt` (properties `by`, `lattice`, `predicateVariable`,
+`predicates`).
 
 ## Modifiers
 
@@ -378,7 +398,9 @@ AST node: `KeyTransactionStmt`.
 merge_point ( <expr> );
 ```
 
-AST node: `KeyMergePointStmt`.
+AST node: `KeyMergePointStmt`. This is the KeY *ProofJava* form; the JML
+statement with the `\by`/`\lattice`/`\predicate` options is a different node
+(`JmlMergePointStmt`) — see [JML statements](#jml-statements).
 
 ### Loop scopes
 
