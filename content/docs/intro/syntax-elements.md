@@ -317,6 +317,15 @@ type and lists the abstraction predicates separated by commas. AST node:
 `JmlMergePointStmt` (properties `by`, `lattice`, `predicateVariable`,
 `predicates`).
 
+`merge_point` is a **contextual keyword**, not a reserved word: it is
+recognized as a merge point only when directly followed by `;` or one of the
+`\by` / `\lattice` / `\predicate` options, in method bodies as well as in JML
+comments. The KeY spelling `$mergePoint` is accepted too. When followed by
+`(`, as in the old KeY ProofJava form `merge_point ( expr );`, it is an
+ordinary method invocation (`MethodCallExpr`), not a merge point — and
+`merge_point` can be used as a plain identifier (fields, local variables,
+method names).
+
 ## Modifiers
 
 JML modifiers appear together with Java modifiers on members and fields
@@ -394,13 +403,13 @@ AST node: `KeyTransactionStmt`.
 
 ### Merge points
 
-```java
-merge_point ( <expr> );
-```
-
-AST node: `KeyMergePointStmt`. This is the KeY *ProofJava* form; the JML
-statement with the `\by`/`\lattice`/`\predicate` options is a different node
-(`JmlMergePointStmt`) — see [JML statements](#jml-statements).
+The KeY *ProofJava* form `merge_point ( <expr> );` is **no longer a dedicated
+statement**: the `KeyMergePointStmt` AST node was removed. Because
+`merge_point` is a contextual keyword, the form still parses — as an ordinary
+method invocation (`ExpressionStmt` wrapping a `MethodCallExpr`), so existing
+ProofJava sources keep parsing. The JML merge-point statement with the
+`\by`/`\lattice`/`\predicate` options is `JmlMergePointStmt` — see
+[JML statements](#jml-statements).
 
 ### Loop scopes
 
@@ -558,8 +567,10 @@ original documentation describe the known edges:
 
 ### KeY
 
-* the parser has support for `merge_point` statements at the syntactic level
-  (see above), but no dedicated support for information-flow contracts;
+* the parser supports the JML `merge_point` statement at the syntactic level
+  (see above); the KeY ProofJava form `merge_point ( expr );` is parsed as an
+  ordinary method invocation; no dedicated support for information-flow
+  contracts;
 * unclear whether `x instanceof int` should be accepted;
 * KeY puts no modifiers in contracts and allows modifiers in arbitrary
   positions; JMLtk follows JML in requiring modifiers before the return type.
@@ -599,9 +610,8 @@ For maintainers, the structural changes vs. the upstream JavaParser grammar
 * **No-body constructors** are allowed (KeY);
 * **New statement node types** — `KeyMetaConstruct`,
   `KeyMethodCallStatement`, `KeyMethodBodyStatement`,
-  `KeyTransactionStatement`, `KeyMergePointStatement`,
-  `KeyLoopScopeBlock`, `KeyCatchAllStatement`, `KeyExecStatement` and their
-  `KeyCcatch*` parts;
+  `KeyTransactionStatement`, `KeyLoopScopeBlock`, `KeyCatchAllStatement`,
+  `KeyExecStatement` and their `KeyCcatch*` parts;
 * **New primitive logic types** — `\bigint`, `\real`, `\locset`, `\seq`,
   `\free`, `\map`;
 * **New types** — schema types and meta-types (see SchemaJava);
