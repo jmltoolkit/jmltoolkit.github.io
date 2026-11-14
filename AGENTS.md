@@ -56,6 +56,9 @@ JMLtk/JavaParser.
 - Prefer Markdown over embedded HTML; keep front matter minimal.
 - Never edit generated output (`public/`, `resources/`).
 
+- Refer to the [JML_Reference_Manual.pdf](content/jml/JML_Reference_Manual.pdf)
+  and github discussion: `content/jml/JML_REFERENCE.txt` gives you the toc.
+
 ## PRs
 
 - Conventional commits, e.g. `docs(intro): …`, `docs(tools): …`.

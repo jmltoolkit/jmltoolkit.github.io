@@ -1,0 +1,83 @@
+KEY / META-JAVA — INDEX OF THE KeY BOOK
+=======================================
+
+Source: https://www.key-project.org/thebook2/
+Book: Deductive Software Verification — The KeY Book (LNCS 10001, 2016)
+DOI: https://doi.org/10.1007/978-3-319-49812-6
+Table of contents PDF:
+https://www.key-project.org/wp-content/uploads/2018/10/KeYBook_TableOfContents.pdf
+
+The book describes KeY 2.6.1. Page numbers below are the printed book pages
+from the official table of contents. The primary syntax reference for the
+“meta-Java” constructs (method frames, schema variables, schematic blocks,
+meta-constructs, etc.) is Chapter 21, §21.2.5 “Schematic Java Syntax”,
+pp. 650–654.
+
+CHAPTER FILES AND PAGE RANGES
+-----------------------------
+
+| Ch | Title | Book pages | Preprint / file |
+| -- | ----- | ---------- | --------------- |
+| 3 | Dynamic Logic for Java | 47–104 | https://formal.kastel.kit.edu/biblio/projects/key/chapter3.pdf |
+| 4 | Proof Search with Taclets | 105–146 | https://formal.kastel.kit.edu/biblio/projects/key/chapter4.pdf |
+| 7 | Formal Specification with the Java Modeling Language | 189–238 | http://www.cse.chalmers.se/~ahrendt/papers/JML16chapter.pdf |
+| 8 | From Specification to Proof Obligations | 239–284 | https://formal.kastel.kit.edu/biblio/projects/key/chapter8.pdf |
+| 9 | Modular Specification and Verification | 285–348 | https://formal.kastel.kit.edu/pschmitt/Chapter-9-Modular.pdf |
+| 10 | Verifying Java Card Programs | 349–376 | https://link.springer.com/chapter/10.1007/978-3-319-49812-6_10 |
+| 14 | Program Transformation and Compilation | 467–486 | https://link.springer.com/chapter/10.1007/978-3-319-49812-6_14 |
+| 15 | Using the KeY Prover | 487–532 | https://formal.kastel.kit.edu/biblio/projects/key/chapter15.pdf |
+| 21 | KeY File Reference | 619–654 | https://link.springer.com/chapter/10.1007/978-3-319-49812-6_21 |
+| A | Java Modeling Language Reference | 609–618 | https://formal.kastel.kit.edu/biblio/projects/key/chapterAppendixA.pdf |
+
+Notes:
+- The Chapter 10, 14, and 21 preprint links on the book page currently return
+  HTML/404 instead of PDFs. The Springer chapter links above are stable.
+- Chapter 21 §21.2.5 “Schematic Java Syntax” is pp. 650–654; Chapter 21 ends
+  at p. 654 and the references start at p. 655.
+- The JML chapter is listed only for cross-reference; this index is about KeY
+  / meta-Java constructs.
+
+CONSTRUCT INDEX
+---------------
+
+| Construct (content/key) | Syntax | Semantics / related sections | Notes |
+| ----------------------- | ------ | ---------------------------- | ----- |
+| Method frames (`method-frame`, `$methodFrame`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.2.3, pp. 50–54 (definition p. 53); Ch 3 §3.6.5.6, p. 81 (creating the frame); Ch 3 §3.6.5.7, pp. 81–82 (return/empty frame); Ch 9 §9.4.3, p. 332 (method-contract rule) | Primary “schematic Java” syntax is in Ch 21. |
+| Method calls with target type (`<expr> @ <type>;`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.2.3, pp. 50–54 (method body statements p. 53); Ch 3 §3.6.5.6, p. 81 (unfolding); Ch 8 §8.2.4, pp. 264–267 (JavaDL contracts) | Sometimes called “method body statement” in the book. |
+| Loop scopes (`loop-scope`, `$loopScope`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.6.4, p. 74 (unwinding loops); Ch 3 §3.7.2, p. 99 (loop invariants); Ch 8 §8.2.5, p. 267 (loop specifications) | The book discusses loop unwinding/invariants rather than the `loop-scope` keyword itself. |
+| Catch-all statements (`#catchAll`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.6.7, pp. 91–95 (handling abrupt termination; catch clauses) | No dedicated test-corpus sample in JMLtk. |
+| `exec` + `ccatch` | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.6.7, pp. 91–95; Ch 3 §3.6.7.5, pp. 94–95 (method frame and throw); Ch 3 §3.6.7.6, p. 95 (try/throw) | Completion scopes for return/break/continue/exception. |
+| Java Card transactions (`#beginJavaCardTransaction`, …) | Ch 21 §21.2.5, pp. 650–654 | Ch 10 §10.3, pp. 353–359; §10.3.2, p. 355 (transaction marking and balancing); §10.4, p. 360 (taclets for the new rules) | Java Card-specific. |
+| Passive expressions (`@(expr)`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.5.4, p. 64 (schema variables for program constructs); Ch 4 §4.3.2, p. 128 (schema variable kinds) | Marks an expression as side-effect free. |
+| No-body declarations | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.2.3, pp. 50–54 (legal program fragments); Ch 3 §3.6.5, p. 75 (method inlining); Ch 9 §9.4.3, p. 332 | Used for classpath/schema stubs. |
+| Schema variables (`#a`, `#T`, …) | Ch 4 §4.3.2, pp. 128–134; Ch 4 §4.3.1.4, p. 124; Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.5.4, p. 64 (Table 3.2: schema variable names and kinds); Ch 15 §15.2.2, p. 503 (instantiating schema variables in the prover) | The book is the main reference for SV kinds. |
+| Schema types (`#T`, `#typeof(expr)`) | Ch 4 §4.3.2.1, p. 132 (schema variable kinds; Table 4.3); Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.5.4, p. 64 (type SVs); Ch 4 §4.3.2, pp. 128–134 | `#typeof` is a schema type constructor. |
+| Static-evaluation names (`#staticEvaluate`, `#createObject`, `#lengthReference`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.6.6, pp. 86–90 (instance creation; `<createObject>`/`<allocate>`); Ch 3 §3.6.5, p. 75 (method calls/inlining); Ch 4 §4.3.1, p. 119 (taclet language) | In JMLtk these are not reserved meta-constructs; they parse as `MethodCallExpr`. |
+| Contextual blocks (`{ . … .. … ... }`) | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.5.4, p. 64 (schema variables for program constructs); Ch 4 §4.3.2, p. 128 (schema variable kinds) | Execution context for schematic statements. |
+| Meta-constructs (`#name(args)`) | Ch 21 §21.2.5, pp. 650–654 | Ch 14 §14.1, pp. 468–475 (interleaving symbolic execution and partial evaluation); Ch 14 §14.2, pp. 476–485 (verified compilation); Ch 4 §4.3.1, p. 119 (taclet language) | The generic `#name` statement replaced the name-specific productions. |
+| `$methodFrame` / `$loopScope` aliases | Ch 21 §21.2.5, pp. 650–654 | Ch 3 §3.2.3, p. 50 (program-fragment extensions) | Alternative spellings accepted by JMLtk. |
+
+NOT COVERED BY THE BOOK
+-----------------------
+
+- The old KeY `merge_point ( expr );` form. No occurrence was found in the
+  available chapter preprints (Chapters 3, 4, 9, 15); the JMLtk JML merge point
+  is a JMLtk/KeY extension.
+- AST-only or currently unparsed JMLtk nodes: `KeyMarkerStatement`,
+  `KeyEscapeExpression`, `LogicalType`, `ArrayLengthValueDeclaration`,
+  `KeyCatchBranch`. These have no book section; they are AST/resolver-level or
+  unparsed.
+- JML constructs are covered by Chapter 7 (pp. 189–238) and Appendix A
+  (pp. 609–618), but they are intentionally outside this meta-Java index.
+
+HOW TO USE THIS INDEX
+---------------------
+
+1. For the syntax of a JMLtk KeY construct, start with Chapter 21 §21.2.5,
+   pp. 650–654.
+2. For its semantics, follow the chapter/section in the middle column.
+3. For schema-variable kinds and taclets, use Chapter 4 §4.3.2, pp. 128–134.
+4. For Java Card transaction behavior, use Chapter 10 §10.3–10.4,
+   pp. 353–360.
+5. For program-transformation meta-constructs, use Chapter 14 §14.1–14.2,
+   pp. 468–485.

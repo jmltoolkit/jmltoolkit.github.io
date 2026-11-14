@@ -27,26 +27,26 @@ parser:
 - A visibility keyword before a behavior is stored on `JmlContract#getModifiers()`,
   not as a clause; declaration modifiers inside a contract (OpenJML-style
   `model public static void ...`) are not part of the contract either.
-- `//@ reachable;` and the `static_initializer` / `readonly` modifiers are not
-  supported.
+- `//@ reachable;`, the `debug` and `nowarn` pragmas, and the
+  `static_initializer` / `readonly` modifiers are not supported.
 - Extensions beyond the reference include infix set operators, relational
   chains, block/loop contract behaviors, heap-on-clause annotations
   (`requires<trans><h> ...`), and the `determines` / `separates` family.
 
-## Reading order
+## Overview
 
-| Page | What it covers |
-| ---- | -------------- |
-| [Annotations and key sets](annotations-and-key-sets/) | Comment forms, conditional annotations, `setJmlKeys`, `jmlTags`, JMLDoc |
-| [Contracts](contracts/) | Method, constructor, loop, block, and lambda contracts; clauses; `also`; nesting |
-| [Body declarations](body-declarations/) | Invariants, `constraint`, `initially`, `axiom`, lemmas, `represents`, model/ghost members |
-| [Modifiers](modifiers/) | JML modifiers and where they are legal |
-| [Expressions](expressions/) | Java/JML expressions, side-effect restrictions, operators, `\old`, `\result`, types |
-| [Quantifiers](quantifiers/) | `\forall`, `\exists`, `\sum`, `\product`, `\num_of`, element domains |
-| [Let and labels](let-and-labels/) | `\let`, `\such_that`, `\lbl` |
-| [Statements](statements/) | `assert`, `assume`, `set`, ghost declarations, `refining`, `begin`/`end`, `unreachable` |
-| [Proof scripts](proof-scripts/) | `\by` scripts, `obtain`, `use_lemma`, cases |
-| [Merge points](merge-point/) | `merge_point` (`\by`, `\lattice`, `\predicate`) |
+{{< cards cols="2" >}}
+  {{< card link="annotations-and-key-sets/" title="Annotations and key sets" icon="tag" subtitle="Comment forms, conditional annotations, `setJmlKeys`, `jmlTags`, JMLDoc" >}}
+  {{< card link="contracts/" title="Contracts" icon="document-text" subtitle="Method, constructor, loop, block, and lambda contracts; clauses; `also`; nesting" >}}
+  {{< card link="body-declarations/" title="Body declarations" icon="collection" subtitle="Invariants, `constraint`, `initially`, `axiom`, lemmas, `represents`, model/ghost members" >}}
+  {{< card link="modifiers/" title="Modifiers" icon="adjustments" subtitle="JML modifiers and where they are legal" >}}
+  {{< card link="expressions/" title="Expressions" icon="code" subtitle="Java/JML expressions, side-effect restrictions, operators, `\old`, `\result`, types" >}}
+  {{< card link="quantifiers/" title="Quantifiers" icon="beaker" subtitle="`\forall`, `\exists`, `\sum`, `\product`, `\num_of`, element domains" >}}
+  {{< card link="let-and-labels/" title="Let and labels" icon="bookmark" subtitle="`\let`, `\such_that`, `\lbl`" >}}
+  {{< card link="statements/" title="Statements" icon="terminal" subtitle="`assert`, `assume`, `set`, ghost declarations, `refining`, `begin`/`end`, `unreachable`" >}}
+  {{< card link="proof-scripts/" title="Proof scripts" icon="shield-check" subtitle="`\by` scripts, `obtain`, `use_lemma`, cases" >}}
+  {{< card link="merge-point/" title="Merge points" icon="link" subtitle="`merge_point` (`\by`, `\lattice`, `\predicate`)" >}}
+{{< /cards >}}
 
 ## AST conventions
 
@@ -62,7 +62,3 @@ The [JML Reference Manual](https://www.openjml.org/documentation/JML_Reference_M
 is the normative reference. JMLtk follows it in the common parts and accepts
 additional forms where the construct pages say so.
 
-A local copy is available as
-[JML_Reference_Manual.pdf](JML_Reference_Manual.pdf). The maintainer page map
-(construct → manual section → PDF page) is `JML_REFERENCE.txt`; it is not part
-of the site navigation.

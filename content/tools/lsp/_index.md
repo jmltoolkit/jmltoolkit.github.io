@@ -9,7 +9,7 @@ The JMLtk Language Server Protocol (LSP) implementation provides IDE support for
 
 ## Installation
 
-1. Download the latest release of JMLtk from the [releases page](https://github.com/jmltoolkit/jmltoolkit/releases)
+1. Download the latest release of JMLtk from the [releases page](https://github.com/jmltoolkit/jmltk/releases)
 2. Extract the archive to your preferred location
 3. The `jmltk-lsp` script will be available in the `bin` directory of the installation
 

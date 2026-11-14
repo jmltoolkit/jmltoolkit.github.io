@@ -81,7 +81,7 @@ menu:
         type: search
     - name: GitHub
       weight: 5
-      url: "https://github.com/jmltoolkit/jmlparser"
+      url: "https://github.com/jmltoolkit/jmltk"
       params:
         icon: github
 

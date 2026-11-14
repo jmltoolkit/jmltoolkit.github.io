@@ -13,6 +13,8 @@ The manual's printed page 1 is PDF page 12, so:
 The local copy is identical; use JML_Reference_Manual.pdf#page=<pdf-page> when
 serving it from this site, or the public URL above.
 
+RefMan issue/discussion references are indexed at the bottom of this file.
+
 -------------------------------------------------------------------------------
 ANNOTATIONS / COMMENTS / KEY SETS
 -------------------------------------------------------------------------------
@@ -202,3 +204,154 @@ JMLTK / KeY EXTENSIONS (no direct JML manual section)
 - three-expression quantifier form (lower-bound; upper-bound; body)
 - \such_that in proof scripts (the manual's \such_that is the represents
   relational-abstraction form, §7.7 p. 99 / PDF 110)
+
+-------------------------------------------------------------------------------
+REFMAN ISSUES / DISCUSSIONS BY CONSTRUCT
+-------------------------------------------------------------------------------
+Repository: https://github.com/JavaModelingLanguage/RefMan
+Issue references below are #<number>:
+  https://github.com/JavaModelingLanguage/RefMan/issues/<number>
+Discussion references are D<number>:
+  https://github.com/JavaModelingLanguage/RefMan/discussions/<number>
+
+ANNOTATIONS / COMMENTS / KEY SETS
+  #9   Proposal: Conditional Clauses
+  #60  Annotation on Package- and Module-Level
+  #44  Java annotations and JML
+  #38  text blocks (JML block annotations)
+  #6   JML Syntax (draft chapter)
+
+MODIFIERS
+  #61  Description/Meaning on Modifiers for Class Clauses missing?
+  #55  heap_free and pure
+  #53  nullness default for arrays
+  #51  nullness defaults for binaries
+  #50  function / no_state / reads \nothing
+  #45  Deprecate the keywords field, method and constructor
+  #44  Java annotations and JML
+  #40  ghost and model declarations
+  #21  Deprecate `nowarn`?
+
+BODY DECLARATIONS
+  #62  Compact constructors and JML
+  #61  Description/Meaning on Modifiers for Class Clauses missing?
+  #59  Named Entities, Scopes, and Name Resolution
+  #52  specifying static initialization
+  #49  JMLDataGroup
+  #40  ghost and model declarations
+  #39  Lambda Expressions
+  #28  A new category of JML items
+  #22  Library specs and language levels
+  #16  data groups, model fields and *
+  #14  block contracts
+  #9   Proposal: Conditional Clauses
+  #6   JML Syntax
+  D3   Names for JML entities (named invariants, initially, accessible, contracts)
+
+CONTRACTS
+  #62  Compact constructors and JML
+  #58  `signals`-clause
+  #56  accessible clauses for methods called in preconditions
+  #55  heap_free and pure
+  #54  exceptions in methods in specifications
+  #50  function / no_state / reads \nothing
+  #48  syntax for representing specs of functions
+  #35  captures and \only_captured
+  #47  defaults and spec inference and standards
+  #43  Naming - method specs
+  #39  Lambda Expressions
+  #37  built-in labels for \old
+  #36  \old \pre \before
+  #34  Redundant assertions and hence_by
+  #33  deprecate forall?
+  #31  frame conditions and non-disjoint behaviors
+  #30  \fresh with labels and \before
+  #24  \hence_by
+  #19  OpenJML's syntax extensions
+  #18  Explicit Naming for Contracts
+  #14  block contracts
+  #9   Proposal: Conditional Clauses
+  #8   old and forall
+  D3   Names for JML entities
+
+STATEMENTS
+  #46  \count and \index
+  #41  \lblpos, \lbl etc.
+  #40  ghost and model declarations
+  #34  Redundant assertions and hence_by
+  #29  ghost label
+  #27  `reachable` is problematic
+  #24  \hence_by
+  #19  OpenJML's syntax extensions
+  #15  storeref expressions
+  #12  \not_specified
+  #10  \some
+
+EXPRESSIONS
+  #57  syntax and operations for \seq \set \map
+  #42  \set<Object>
+  #41  \lblpos, \lbl etc.
+  #46  \count and \index
+  #37  built-in labels for \old
+  #36  \old \pre \before
+  #35  captures and \only_captured
+  #34  Redundant assertions and hence_by
+  #33  deprecate forall?
+  #32  visibility for \invariant_for and \static_invariant_for
+  #30  \fresh with labels and \before
+  #27  `reachable` is problematic
+  #26  Revisiting the \past
+  #24  \hence_by
+  #23  Array indices
+  #20  static_invariant_for
+  #15  storeref expressions
+  #13  \union
+  #12  \not_specified
+  #11  NaN semantics
+  #10  \some
+  #8   old and forall
+  #19  OpenJML's syntax extensions
+
+TYPES
+  #57  syntax and operations for \seq \set \map
+  #42  \set<Object>
+  #49  JMLDataGroup
+  #28  A new category of JML items
+  #16  data groups, model fields and *
+  #15  storeref expressions
+  #13  \union
+  #12  \not_specified
+  #11  NaN semantics
+  #10  \some
+  #6   JML Syntax
+
+JMLTK / KeY EXTENSIONS
+  #33  deprecate forall?
+  #10  \some
+  #19  OpenJML's syntax extensions (many parser extensions)
+  #28  A new category of JML items (proof scripts/prover guidance)
+  #14  block contracts
+  #34  Redundant assertions and hence_by
+  #24  \hence_by
+  #39  Lambda Expressions
+  #62  Compact constructors and JML
+  Not discussed in RefMan:
+    merge_point
+    proof scripts (\by), obtain, \from_goal, use_lemma, case/default
+    element/range/Iterable-domain quantifiers
+    three-expression quantifier form (lower-bound; upper-bound; body)
+    \such_that in proof scripts (the manual's \such_that is the represents
+    relational-abstraction form, §7.7 p. 99 / PDF 110)
+
+CROSS-CUTTING / NAMING / LANGUAGE LEVELS
+  D3   Names for JML entities
+  #59  Named Entities, Scopes, and Name Resolution
+  #7   Proposal: Name resolution via companion namespace
+  #43  Naming - method specs
+  #18  Explicit Naming for Contracts
+  #45  Deprecate the keywords field, method and constructor
+  #25  JML Core
+  #22  Library specs and language levels
+  #47  defaults and spec inference and standards
+  #28  A new category of JML items
+  #6   JML Syntax

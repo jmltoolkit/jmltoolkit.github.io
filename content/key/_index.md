@@ -7,21 +7,21 @@ JMLtk parses KeY's ProofJava and SchemaJava extensions into the
 `com.github.javaparser.ast.key` packages. This section documents those KeY
 constructs; JML itself is documented in the [JML section](../jml/).
 
-## Reading order
+## Overview
 
-| Page | What it covers |
-| ---- | -------------- |
-| [Method frames](method-frames/) | `method-frame(...)`, `$methodFrame`, execution contexts |
-| [Method calls](method-calls/) | `<expr> @ <type>;` and `<name> = <expr> @ <type>;` |
-| [Loop scopes](loop-scopes/) | `loop-scope(...)`, `$loopScope` |
-| [Catch-all statements](catch-all/) | `#catchAll(name) { ... }` |
-| [`exec` and `ccatch`](exec-ccatch/) | `exec { ... } ccatch(...) { ... }` |
-| [Java Card transactions](java-card/) | `#beginJavaCardTransaction`, `#commit...`, `#finish...`, `#abort...` |
-| [Passive expressions](passive-expressions/) | `@(expr)` |
-| [No-body declarations](no-body-declarations/) | constructors/methods without a body |
-| [Schema variables](schema-variables/) | `#a`, typed schema variables, schema types, static-evaluation names |
-| [Contextual blocks](contextual-blocks/) | `{ . ... .. ... ... }` |
-| [Meta-constructs](meta-constructs/) | generic `#name(args)` and reserved-name configuration |
+{{< cards cols="2" >}}
+  {{< card link="method-frames/" title="Method frames" icon="document-text" subtitle="`method-frame(...)`, `$methodFrame`, execution contexts" >}}
+  {{< card link="method-calls/" title="Method calls" icon="code" subtitle="`<expr> @ <type>;` and `<name> = <expr> @ <type>;`" >}}
+  {{< card link="loop-scopes/" title="Loop scopes" icon="refresh" subtitle="`loop-scope(...)`, `$loopScope`" >}}
+  {{< card link="catch-all/" title="Catch-all statements" icon="exclamation-circle" subtitle="`#catchAll(name) { ... }`" >}}
+  {{< card link="exec-ccatch/" title="exec and ccatch" icon="terminal" subtitle="`exec { ... } ccatch(...) { ... }`" >}}
+  {{< card link="java-card/" title="Java Card transactions" icon="credit-card" subtitle="`#beginJavaCardTransaction`, `#commit...`, `#finish...`, `#abort...`" >}}
+  {{< card link="passive-expressions/" title="Passive expressions" icon="eye" subtitle="`@(expr)`" >}}
+  {{< card link="no-body-declarations/" title="No-body declarations" icon="document" subtitle="constructors/methods without a body" >}}
+  {{< card link="schema-variables/" title="Schema variables" icon="puzzle" subtitle="`#a`, typed schema variables, schema types, static-evaluation names" >}}
+  {{< card link="contextual-blocks/" title="Contextual blocks" icon="code" subtitle="`{ . ... .. ... ... }`" >}}
+  {{< card link="meta-constructs/" title="Meta-constructs" icon="cog" subtitle="generic `#name(args)` and reserved-name configuration" >}}
+{{< /cards >}}
 
 ## Aliases and compatibility
 
@@ -41,5 +41,7 @@ constructs; JML itself is documented in the [JML section](../jml/).
   `KeyEscapeExpression`, `LogicalType`, `ArrayLengthValueDeclaration`,
   `KeyCatchBranch`) are not documented as construct pages.
 
-The maintainer-oriented page map is `KEY_REFERENCE.txt` in this directory; it
-is not part of the site navigation.
+The maintainer-oriented references [KEY_REFERENCE.txt](KEY_REFERENCE.txt)
+(project/test links) and [KEY_BOOK_INDEX.txt](KEY_BOOK_INDEX.txt) (construct →
+KeY Book chapter/page index) live in this directory; they are not part of the
+site navigation.

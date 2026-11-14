@@ -30,3 +30,5 @@ Notes:
   - KeyMarkerStatement, KeyEscapeExpression, LogicalType,
     ArrayLengthValueDeclaration, and KeyCatchBranch are AST-only/unparsed or
     resolver-level; they do not have construct pages.
+
+For a construct -> KeY Book chapter/page index, see KEY_BOOK_INDEX.txt.
