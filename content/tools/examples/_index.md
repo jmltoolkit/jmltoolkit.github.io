@@ -16,7 +16,7 @@ Currently one showcase source: **`VerifiedIdentityHashMap`** (package `ihm`), a
 faithful re-implementation of `java.util.IdentityHashMap` (derived from the
 JDK sources) heavily annotated with JML:
 
-```java
+```jml
 //@ requires key != null;
 //@ ensures key == null ==> \result == NULL_KEY;
 //@ ensures key != null ==> \result == key;

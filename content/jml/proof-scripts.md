@@ -44,7 +44,7 @@ proof-arg   ::= [ label ":" ] expression
 From
 `javaparser-core-testing/src/test/java/com/github/javaparser/JmlProofScriptTest.java`:
 
-```java
+```jml
 //@ assert (\forall int x; x != mx; 2 * count(a, k + 1, x) <= k + 1 - mc)
 //@   \by {
 //@     oss;
@@ -58,7 +58,7 @@ From
 
 Cases and the three `obtain` forms:
 
-```java
+```jml
 //@ assert true \by {
 //@   case "a":
 //@     expand on: "x";
@@ -74,7 +74,7 @@ Cases and the three `obtain` forms:
 Lemmas use the same script language
 (`jmlparser-jml-tests/src/test/resources/fullexamples/tested/Lemmas.java`):
 
-```java
+```jml
 //@ lemma L(int x) \by { auto; };
 //@ lemma nospace(\seq s) \by { oss; use_lemma nospace(x); auto; };
 ```

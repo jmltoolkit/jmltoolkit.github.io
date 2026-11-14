@@ -37,14 +37,14 @@ domain       ::= expression | lower ".." upper
 
 The classic JML forms use `;`-separated expressions:
 
-```java
+```jml
 //@ ensures (\forall int i; a[i] > 0);
 //@ ensures (\forall int i; 0 <= i && i < a.length; a[i] > 0);
 ```
 
 JMLtk additionally accepts element, range, and `Iterable` domains:
 
-```java
+```jml
 //@ ensures (\forall int e : a; e > 0);           // array elements
 //@ ensures (\forall int i : 0..n; a[i] > 0);      // range
 //@ ensures (\forall var x : list; x != null);     // Iterable elements
@@ -63,7 +63,7 @@ variable list and the body may contain **any number** of `;`-separated
 expressions. The semantics are left to the consuming tool. A useful convention
 is:
 
-```text
+```jml
 (\forall int i; <expr>)                       -- just like the JML manual
 (\forall int i; <guard>; <expr>)              -- just like the JML manual
 (\forall int i; <lower-bound>; <upper-bound>; <expr>)   -- JMLtk extension
@@ -91,7 +91,7 @@ use the classic index form instead.
 Array elements
 (`jmlparser-jml-tests/src/test/resources/fullexamples/tested/QuantArray.java`):
 
-```java
+```jml
 /*@ requires a != null;
   @ ensures (\forall int e : a; e >= 0);
   @*/

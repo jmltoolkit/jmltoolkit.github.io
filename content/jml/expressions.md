@@ -66,7 +66,7 @@ a != null ==> (\forall int i; 0 <= i && i < a.length - 1; a[i] <= a[i + 1])
 A relational chain and `\old`/`\result` from
 `jmlparser-jml-tests/src/test/resources/fullexamples/tested/Permut.java`:
 
-```java
+```jml
 /*@ requires A != null;
   @ ensures !\result ==> (\forall int i; 0 <= i < A.length; A[i] == \old(A[i]));
   @ ensures \result ==> (\forall int i; 0 <= i < A.length;
@@ -79,7 +79,7 @@ A relational chain and `\old`/`\result` from
 
 A set comprehension has the form `{ Type x; range; value }`:
 
-```java
+```jml
 //@ ensures seen == { int i; 0 <= i && i < n; a[i] };
 ```
 

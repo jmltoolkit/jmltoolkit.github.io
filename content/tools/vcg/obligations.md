@@ -90,7 +90,7 @@ never throws, so a proven method could still crash in Java without them. See the
 
 ### Postcondition — `abs` (UNBOUNDED)
 
-```java
+```jml
 //@ requires x >= 0;
 //@ ensures \result >= 0;
 public int abs(int x) {
@@ -118,7 +118,7 @@ hold*. Z3 answers `unsat` — proven.
 
 ### Arithmetic overflow — `boundedAdd` (BOUNDED)
 
-```java
+```jml
 //@ requires x >= -1000 && x <= 1000 && y >= -1000 && y <= 1000;
 //@ ensures \result == x + y;
 public int boundedAdd(int x, int y) {
@@ -147,7 +147,7 @@ afterwards proves `\result == x + y` on 32-bit arithmetic.
 
 ### Null dereference — arrays (UNBOUNDED)
 
-```java
+```jml
 //@ ensures true;
 public void derefNullableArray(int[] a) {
     int v = a[0];
@@ -173,7 +173,7 @@ counterexample (`a` = `$null_array_ArrayIntInt`).
 
 ### The string model — `stringSelfEquals` (P4.3)
 
-```java
+```jml
 //@ requires s != null;
 //@ ensures true;
 public boolean stringSelfEquals(String s) {
@@ -223,7 +223,7 @@ and `!s.equals(null)` (the argument is a null-guarded reference):
 
 ### Slice reads — `substringLen` (P4.3)
 
-```java
+```jml
 //@ requires s != null && 0 <= i && i <= s.length();
 //@ ensures \result == s.length() - i;
 public int substringLen(String s, int i) {
@@ -276,7 +276,7 @@ the generalized-quantifier shape the VCG models — this is KeY's firstTouch
 08-Java5 for-each sum (the KeY loop-position pseudo-variable `\index` binds the
 type-tagged loop-counter register in the loop contract):
 
-```java
+```jml
 //@ requires a != null;
 //@ ensures \result == (\sum int j; 0 <= j && j < a.length; a[j]);
 int sum() {

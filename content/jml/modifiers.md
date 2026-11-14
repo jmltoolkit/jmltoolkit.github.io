@@ -41,14 +41,14 @@ JMLtk validates where a modifier may appear; the exact rule set lives in
 Math-mode modifier on a class
 (`javaparser-core-testing/src/test/resources/com/github/javaparser/jml/mathmods/TestClass.java`):
 
-```java
+```jml
 public /*@ spec_java_math @*/ class TestClass { ... }
 ```
 
 Bigint math mode on a class and a model method
 (`javaparser-core-testing/src/test/resources/com/github/javaparser/jml/mathmods/Test.java`):
 
-```java
+```jml
 /*@ spec_bigint_math @*/
 public class Test {
     /*@ model_behaviour
@@ -60,7 +60,7 @@ public class Test {
 Ghost and spec visibility
 (`jmlparser-jml-tests/src/test/resources/fullexamples/tested/GhostArrayQuantifier.java`):
 
-```java
+```jml
 //@ ghost int[] array = new int[10];
 private /*@ spec_public @*/ int[] a;
 ```
@@ -68,14 +68,14 @@ private /*@ spec_public @*/ int[] a;
 `spec_public` on a field
 (`jmlparser-jml-tests/src/test/resources/fullexamples/key/heap/initially/Initially.java`):
 
-```java
+```jml
 protected /*@spec_public@*/ int x;
 ```
 
 Lemmas with modifiers
 (`jmlparser-jml-tests/src/test/resources/csm_jml_classlevel.txt`):
 
-```java
+```jml
 //@ public static no_state lemma nospace(\seq s) \by { ... };
 ```
 

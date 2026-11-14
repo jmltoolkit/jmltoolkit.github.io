@@ -53,7 +53,7 @@ length function, `(select a j)` the element read).
 
 ### `\forall` — the range guards the body
 
-```java
+```jml
 //@ requires a != null && (\forall int j; 0 <= j && j < a.length; a[j] >= 0);
 ```
 
@@ -70,7 +70,7 @@ The obligation it discharges into asserts the *negation* of the whole
 
 ### `\exists` — the range is conjoined
 
-```java
+```jml
 //@ requires (\exists int j; 0 <= j && j < a.length; a[j] == 42);
 ```
 
@@ -82,7 +82,7 @@ The obligation it discharges into asserts the *negation* of the whole
 
 ### `\sum` — a recursive summation over the range
 
-```java
+```jml
 //@ ensures \result == (\sum int j; 0 <= j && j < a.length; a[j]);
 ```
 
@@ -146,6 +146,6 @@ unsupported: element/range-domain quantifier bindings (`\forall int e : a; …`)
 
 Write the explicit classic form (the range is what the VCG reasons over):
 
-```java
+```jml
 //@ requires a != null && (\forall int j; 0 <= j && j < a.length; a[j] > 0);
 ```

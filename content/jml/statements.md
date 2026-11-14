@@ -64,7 +64,7 @@ nodes with a `JmlStmtKind`. `ghost` is `JmlGhostStmt`, `refining` is
 Label-after-keyword and proof script
 (`jmlparser-jml-tests/src/test/java/com/github/jml/parser/JmlLabeledAssertTest.java`):
 
-```java
+```jml
 //@ assert LAB: x > 0;
 //@ assert LAB: x > 0 \by { assume x > 0; auto; };
 //@ set SN: x = x + 1;
@@ -72,14 +72,14 @@ Label-after-keyword and proof script
 
 Prefix label (JML-standard form):
 
-```java
+```jml
 //@ LAB: assert x > 0;
 ```
 
 Ghost state
 (`jmlparser-jml-tests/src/test/resources/fullexamples/tested/GhostArrayQuantifier.java`):
 
-```java
+```jml
 //@ ghost int[] array = new int[10];
 //@ assert (\forall int e : array; e > 0);
 ```
@@ -87,7 +87,7 @@ Ghost state
 Lemmas and assertions
 (`jmlparser-jml-tests/src/test/resources/fullexamples/tested/Lemmas.java`):
 
-```java
+```jml
 //@ assert n > 0 \by { auto; };
 //@ assert n >= 0 \by { use_lemma intEq(n, n); auto; };
 ```

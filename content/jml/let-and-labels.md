@@ -12,7 +12,7 @@ related relational-abstraction form used by `represents` and proof scripts.
 
 A `\let` expression introduces a local binding inside an expression:
 
-```java
+```jml
 //@ requires (\forall int i; 0 <= i < 5;
 //@     (\let int ii = 2 * i; a[ii] == 0));
 ```
@@ -60,7 +60,7 @@ Examples from
 
 JML statements can be labelled in two ways:
 
-```java
+```jml
 //@ LAB: assert x > 0;          // JML-standard prefix form (JmlLabelStmt)
 //@ assert LAB: x > 0;          // label after the keyword (JmlExpressionStmt#label)
 //@ set SN: x = x + 1;

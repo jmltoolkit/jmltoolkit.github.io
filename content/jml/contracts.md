@@ -83,7 +83,7 @@ clauses — see [Body declarations](../body-declarations/).
 
 ## Method and constructor contracts
 
-```java
+```jml
 /*@ normal_behavior
   @ requires A != null;
   @ ensures !\result ==> (\forall int i; 0 <= i < A.length; A[i] == \old(A[i]));
@@ -99,7 +99,7 @@ From `jmlparser-jml-tests/src/test/resources/fullexamples/tested/Permut.java`.
 A loop contract is either the classic `loop_invariant`/`decreases` form or a
 `loop_contract` with a full behavior section:
 
-```java
+```jml
 /*@ loop_contract normal_behavior
   @ requires arr != null && 0 <= i && i <= arr.length;
   @ ensures  (\forall int j; \before(i) <= j && j < arr.length;
@@ -118,7 +118,7 @@ The classic form (`loop_invariant ...; decreases ...;`) is also accepted.
 
 A block contract is written directly before a `{ ... }` block:
 
-```java
+```jml
 /*@ requires numbers != null;
   @ ensures 0 <= from && from < numbers.length;
   @ returns \result == 0;
@@ -137,7 +137,7 @@ From
 
 A contract may precede a lambda expression:
 
-```java
+```jml
 Calculator c = /*@ ensures \result >= 0; @*/ (int x) -> x * 2;
 ```
 
@@ -146,7 +146,7 @@ The contract is stored on `LambdaExpr#getContracts()`.
 
 ## Named contracts, `also`, and nesting
 
-```java
+```jml
 /*@ normal_behavior positive:
   @   requires x > 0;
   @   ensures \result == x;

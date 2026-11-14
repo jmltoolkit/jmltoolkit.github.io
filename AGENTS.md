@@ -29,7 +29,8 @@ JMLtk/JavaParser.
   - `content/tools/`- subsection for each tool 
 - Front matter is YAML: `title`. `weight` for ordering. Use `_index.md` for section landing pages.
 - Relative links allowed; verify anchors after renaming headings.
-- Tag code fences (`java`, `kotlin`, `xml`, `text`, `shell`); use `text` for grammar sketches. 
+- Tag code fences (`jml`, `java`, `kotlin`, `xml`, `text`); use `jml` for JML
+  snippets, `java` for plain Java, and `text` for grammar sketches.
 - metadata `title:` is printed, no need to repeat it. no H1
 - Keep docs aligned with the parser: grammar `javaparser-core/src/main/javacc/java.jj`, AST under `ast/jml/`
   and `ast/key/`. Consult `jmltk-changelog.md` for release/version wording.
@@ -58,6 +59,22 @@ JMLtk/JavaParser.
 
 - Refer to the [JML_Reference_Manual.pdf](content/jml/JML_Reference_Manual.pdf)
   and github discussion: `content/jml/JML_REFERENCE.txt` gives you the toc.
+
+## Syntax highlighting
+
+Fenced code blocks are highlighted **client-side by Prism.js**, not by Chroma:
+`layouts/_partials/components/codeblock.html` overrides the theme partial and
+emits `<code class="language-…">` without server-side highlighting.
+
+- `assets/js/prism/prism-jml.js` holds the custom JML grammar (clauses,
+  behaviors, modifiers, `\commands`); the vendored Prism components live next to
+  it and are bundled in `layouts/_partials/custom/head-end.html`.
+- Token colours are in `assets/css/custom.css` and mirror the Chroma github
+  palette, including dark mode.
+- To support another fence language, vendor
+  `prism-<lang>.min.js` from <https://prismjs.com> into `assets/js/prism/` and
+  add it to the `$files` slice in `head-end.html`.
+- `text` fences deliberately get no `language-*` class and stay uncoloured.
 
 ## PRs
 

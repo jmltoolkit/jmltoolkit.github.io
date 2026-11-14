@@ -26,7 +26,7 @@ Axiom §7.12, printed p. 105 —
 
 ## Invariants
 
-```java
+```jml
 //@ invariant balance >= 0;
 //@ invariant_redundantly balance >= 0;
 //@ invariant_free true;
@@ -40,7 +40,7 @@ Axiom §7.12, printed p. 105 —
 Example from
 `jmlparser-jml-tests/src/test/resources/fullexamples/tested/GhostArrayQuantifier.java`:
 
-```java
+```jml
 //@ ghost int[] array = new int[10];
 //@ invariant (\forall int e : array; e >= 0);
 ```
@@ -50,7 +50,7 @@ Example from
 A `constraint` relates the pre- and post-state of a type. It is a two-state
 predicate, usually written with `\old`:
 
-```java
+```jml
 //@ constraint i > \old(i);
 ```
 
@@ -62,7 +62,7 @@ The pattern is also exercised by
 `initially` states a property that holds after construction and before any
 method call:
 
-```java
+```jml
 protected /*@ spec_public @*/ int x;
 //@ public initially x > 0;
 ```
@@ -73,7 +73,7 @@ From `jmlparser-jml-tests/src/test/resources/fullexamples/key/heap/initially/Ini
 
 An `axiom` is a logical fact available to a prover:
 
-```java
+```jml
 //@ axiom (\forall Content c; (\forall Object o; c.P(o)));
 ```
 
@@ -83,7 +83,7 @@ From `jmlparser-jml-tests/src/test/resources/fragments/decl_1110573121.txt`.
 
 A class-body lemma carries a `\by` proof script:
 
-```java
+```jml
 //@ lemma L(int x) \by { auto; };
 //@ lemma nospace(\seq s) \by { oss; use_lemma nospace(x); auto; };
 ```
@@ -100,7 +100,7 @@ and `jmlparser-jml-tests/src/test/resources/fragments/decl_jml_lemma.txt`.
 
 A `represents` clause connects a model field to concrete state:
 
-```java
+```jml
 //@ represents footprint <- \locset(value);
 //@ represents size <- items.length;
 ```
@@ -116,7 +116,7 @@ From `jmlparser-jml-tests/src/test/resources/fragments/decl_105494504.txt`.
 * `spec_public`, `spec_package`, `spec_protected`, and `spec_private` widen the
   Java visibility for specification access.
 
-```java
+```jml
 public class Bag {
     private /*@ spec_public @*/ int n;
     //@ ghost int count;
@@ -127,7 +127,7 @@ public class Bag {
 
 Model methods may use JML logic types:
 
-```java
+```jml
 /*@ model_behavior
   @ accessible<heap> \nothing;
   @ accessible<permissions> \nothing;

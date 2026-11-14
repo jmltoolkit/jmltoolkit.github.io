@@ -29,7 +29,7 @@ the comment is included only if at least one positive key is enabled. A negative
 key (`-key`) is an exclusion: if a negative key is enabled, the comment is
 skipped even when a positive key also matches.
 
-```java
+```jml
 //+key@ requires x > 0;             // only the "key" tool sees this
 //+openjml@ ensures \result > 0;    // only the "openjml" tool sees this
 //@ invariant x >= 0;               // every tool sees this
@@ -76,7 +76,7 @@ documentation-oriented tools.
 `javaparser-core-testing/src/test/java/com/github/javaparser/jml/JmlDocSanitizerTest.java`
 uses one string that exercises all forms:
 
-```java
+```jml
 //+key@ A
 //+openjml@ B
 //@ C

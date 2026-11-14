@@ -1,0 +1,22 @@
+{{- /* Prism.js syntax highlighting.
+       Chroma is bypassed for fenced code blocks by
+       layouts/_partials/components/codeblock.html; the bundle below carries
+       the grammars for the languages used on this site plus the custom JML
+       grammar in assets/js/prism/prism-jml.js.
+       To support a new fence language, vendor the matching
+       prism-<lang>.min.js from https://prismjs.com and add it to this slice. */ -}}
+{{- $files := slice
+  (resources.Get "js/prism/prism-core.min.js")
+  (resources.Get "js/prism/prism-clike.min.js")
+  (resources.Get "js/prism/prism-java.min.js")
+  (resources.Get "js/prism/prism-kotlin.min.js")
+  (resources.Get "js/prism/prism-markup.min.js")
+  (resources.Get "js/prism/prism-lisp.min.js")
+  (resources.Get "js/prism/prism-lua.min.js")
+  (resources.Get "js/prism/prism-jml.js")
+  (resources.Get "js/prism/prism-init.js")
+-}}
+{{- $js := $files | resources.Concat "js/prism-bundle.js" | minify | fingerprint -}}
+{{- /* data-manual: do not let Prism auto-run on DOMContentLoaded; prism-init.js
+       runs highlightAll once after the deferred bundle is evaluated. */ -}}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" data-manual defer></script>

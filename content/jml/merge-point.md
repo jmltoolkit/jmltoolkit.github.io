@@ -27,7 +27,7 @@ identifiers; both are normalised to a `StringLiteralExpr` in the AST.
 `merge_point` is **not** a reserved word. It is recognized as a merge point only
 when directly followed by `;` or one of `\by` / `\lattice` / `\predicate`:
 
-```java
+```jml
 //@ merge_point;
 //@ merge_point \by "MergeByIfThenElse";
 //@ merge_point \lattice conjunctive;
@@ -43,7 +43,7 @@ name). The alternative `$mergePoint` spelling is also accepted.
 
 From `jmlparser-jml-tests/src/test/java/com/github/jml/parser/JmlMergePointTest.java`:
 
-```java
+```jml
 //@ merge_point \by "MergeByPredicateAbstraction"
 //@     \lattice conjunctive
 //@     \predicate (int x) : x >= 0, x == \old(b) || x == -\old(b);

@@ -49,7 +49,7 @@ irrelevant for a parser. Language-related changes normally come with a
 
 JML lives inside Java comments. JMLtk recognizes two comment shapes:
 
-```java
+```jml
 //@ requires x != null;         // single-line form
 /*@ ensures \result >= x; @*/   // block form
 ```
@@ -63,7 +63,7 @@ library default the *KeY* key set on.
 A contract groups clauses under a *behavioral keyword* and is attached to a
 method, constructor, or block. Behaviors may be joined with `also`:
 
-```java
+```jml
 /*@ normal_behavior
   @ requires x != null;
   @ ensures \result == x.length;
@@ -140,7 +140,7 @@ The `signals` clause binds the exception variable: `signals (E e) P` means
 
 Block and loop contracts can be written with their own behavior section:
 
-```java
+```jml
 /*@ loop_contract normal_behavior
   @ requires true;
   @ ensures true;
@@ -169,7 +169,7 @@ Class-level specification elements are clauses of the `body` package:
 * `represents` connects a model field to concrete state
   (`JmlRepresentsDeclaration`):
 
-```java
+```jml
 //@ model int size;
 //@ represents size <- items.length;
 
@@ -184,7 +184,7 @@ Class-level specification elements are clauses of the `body` package:
 
 A class-body `lemma` declaration carries a KeY proof script:
 
-```java
+```jml
 //@ lemma L(int x) \by { auto; };
 //@ lemma nospace(\seq s) \by { oss; use_lemma nospace(x); auto; };
 ```
@@ -205,7 +205,7 @@ The reference quantifiers — `\forall`, `\exists`, `\max`, `\min`, `\sum`,
 `\product`, `\num_of` — are supported, followed by a bound-var declaration with
 an optional bound-var modifier, a `;`, one or more predicates, and the body:
 
-```java
+```jml
 //@ ensures (\forall int i; 0 <= i && i < a.length; a[i] > 0);
 //@ ensures (\sum int i; 0 <= i && i < n; a[i]) == total;
 //@ ensures (\num_of int i; 0 <= i && i < n; a[i] == 0) == zeros;
@@ -214,7 +214,7 @@ an optional bound-var modifier, a `;`, one or more predicates, and the body:
 A binding may also take its values from an array, a range, or an
 `Iterable`/`SequencedCollection`:
 
-```java
+```jml
 //@ ensures (\forall int e : a; e > 0);           // array elements
 //@ ensures (\forall int i : 0..n; a[i] > 0);      // range
 //@ ensures (\forall var x : list; x != null);     // Iterable elements
@@ -243,7 +243,7 @@ dialects parse: a quantified expression is
 i.e. as many range expressions as you like. This also covers the KeY form of a
 bounded sum with lower **and** upper bound:
 
-```java
+```jml
 //@ ensures (\bsum int i; i > 0; i <= n / 2; 2 * i) == total;
 ```
 
@@ -284,7 +284,7 @@ The full inventory of specification keywords the lexer recognizes includes
 JML allows chaining comparison operators as a conjunction; JMLtk parses them
 into a single multi-comparison node (`JmlMultiCompareExpr`):
 
-```java
+```jml
 //@ requires 0 <= x <= a.length;      // 0 <= x && x <= a.length
 //@ ensures  i < j <= n;
 ```
@@ -295,14 +295,14 @@ The lexical level permits infix use of the set operators (`JmlBinaryInfixExpr`
 keeps the operator token as a name): a `\cup` b `\cap` c, `\subset`,
 `\intersect`, `\set_union`, `\set_minus`, ... and the subtype operator `<:`:
 
-```java
+```jml
 //@ ensures \typeof(\result) <: \type(Exception);
 //@ ensures s1 \subset s2 \cup s3;
 ```
 
 ### Set comprehensions
 
-```java
+```jml
 //@ ensures seen == { int i; 0 <= i && i < n; a[i] };   // JmlSetComprehensionExpr
 ```
 
@@ -342,7 +342,7 @@ In addition, spec-only expressions can appear as statements via
 A state-merging (abstraction) point tells the verification tool where and how
 to merge symbolic execution states, as used by KeY's state-merging:
 
-```java
+```jml
 //@ merge_point \by "MergeByPredicateAbstraction"
 //@     \lattice conjunctive
 //@     \predicate (int x) : x >= 0, x == \old(b) || x == -\old(b);
@@ -370,7 +370,7 @@ method names).
 JML's standard prefix form `LAB: assert …;` (`JmlLabelStmt`) is supported, as
 is KeY's label-after-keyword form:
 
-```java
+```jml
 //@ assert LAB: i < n;
 //@ set SN: x = x + 1;
 ```
@@ -383,7 +383,7 @@ round-trip through the printers.
 A formatted JML statement (`assert`, `assume`, `set`, `hence_by`) may carry a
 KeY proof script after `\by`:
 
-```java
+```jml
 //@ assert (\forall int i; 0 <= i && i < n; a[i] >= 0)
 //@   \by {
 //@     case "positive": auto;
@@ -431,7 +431,7 @@ are attached to the following type declaration.
 
 For example:
 
-```java
+```jml
 public class Bag {
     private /*@ spec_public @*/ int n;
     private /*@ non_null @*/ int[] items;
