@@ -4,8 +4,6 @@ type: docs
 weight: 150
 ---
 
-# AST Classes
-
 JMLtk's abstract syntax tree is the JavaParser AST extended with JML and KeY
 nodes. Every construct the parser accepts — a statement, an expression, a type,
 a JML clause — is represented by exactly one class that inherits from `Node`.

@@ -1,0 +1,204 @@
+JML REFERENCE MANUAL — PAGE MAP
+================================
+
+Source: https://www.openjml.org/documentation/JML_Reference_Manual.pdf
+Local copy: content/jml/JML_Reference_Manual.pdf (not a Hugo page)
+
+Link format:
+  https://www.openjml.org/documentation/JML_Reference_Manual.pdf#page=<pdf-page>
+
+The manual's printed page 1 is PDF page 12, so:
+  pdf-page = printed-page + 11
+
+The local copy is identical; use JML_Reference_Manual.pdf#page=<pdf-page> when
+serving it from this site, or the public URL above.
+
+-------------------------------------------------------------------------------
+ANNOTATIONS / COMMENTS / KEY SETS
+-------------------------------------------------------------------------------
+4.2.5   Conditional JML annotation comments      printed  51   PDF  62
+4.2.6   Default keys                             printed  51   PDF  62
+4.2.7   Tokenizing JML annotations               printed  52   PDF  63
+
+-------------------------------------------------------------------------------
+MODIFIERS
+-------------------------------------------------------------------------------
+3.3     JML modifiers and Java annotations       printed  17   PDF  28
+3.3.1   Modifiers                                printed  17   PDF  28
+7.1     Modifiers for type declarations          printed  94   PDF 105
+7.1.1   model                                    printed  94   PDF 105
+7.1.3   Purity modifiers                         printed  95   PDF 106
+7.1.5   Arithmetic modes                         printed  96   PDF 107
+8.7     Modifiers for method specifications      printed 128   PDF 139
+9.1     Field and variable modifiers             printed 133   PDF 144
+9.1.2   non_null / nullable                      printed 134   PDF 145
+9.1.4   ghost                                    printed 134   PDF 145
+9.1.5   model                                    printed 135   PDF 146
+9.1.7   instance                                 printed 135   PDF 146
+9.1.9   peer / rep / readonly                    printed 135   PDF 146
+13      Arithmetic modes                         printed 197   PDF 208
+
+-------------------------------------------------------------------------------
+BODY DECLARATIONS
+-------------------------------------------------------------------------------
+3.5     Model and Ghost                          printed  24   PDF  35
+3.6     Model methods and lemmas                 printed  26   PDF  37
+3.13    Invariants                               printed  38   PDF  49
+3.13.1  Strong and weak invariants               printed  38   PDF  49
+3.13.2  Traditional JML                          printed  39   PDF  50
+3.13.3  Invariants in JML 2.0                    printed  39   PDF  50
+7.2     invariant clause                         printed  97   PDF 108
+7.3     constraint clause                        printed  97   PDF 108
+7.4     initially clause                         printed  98   PDF 109
+7.5     ghost fields                             printed  98   PDF 109
+7.6     model fields                             printed  99   PDF 110
+7.7     represents clause                        printed  99   PDF 110
+7.8     model methods                            printed 100   PDF 111
+7.10    static_initializer                       printed 101   PDF 112
+7.12    axiom                                    printed 105   PDF 116
+7.13    readable if / writable if                printed 106   PDF 117
+7.14    monitors_for                             printed 106   PDF 117
+
+-------------------------------------------------------------------------------
+CONTRACTS
+-------------------------------------------------------------------------------
+8       JML Method specifications                printed 107   PDF 118
+8.1     Structure of JML method specs            printed 107   PDF 118
+8.1.1   Behaviors                                printed 109   PDF 120
+8.1.2   Nested specification clauses             printed 110   PDF 121
+8.1.3   Ordering of clauses                      printed 110   PDF 121
+8.1.5   Absent vs. empty behaviors               printed 112   PDF 123
+8.2     implies_that behaviors                   printed 113   PDF 124
+8.3     for_example behaviors                    printed 114   PDF 125
+8.5     Common method clauses                    printed 115   PDF 126
+8.5.1   requires                                 printed 115   PDF 126
+8.5.2   ensures                                  printed 116   PDF 127
+8.5.3   assignable                               printed 117   PDF 128
+8.5.4   signals                                  printed 118   PDF 129
+8.5.5   signals_only                             printed 119   PDF 130
+8.6     Advanced method clauses                  printed 119   PDF 130
+8.6.1   invariants clause                        printed 119   PDF 130
+8.6.2   recommends                               printed 119   PDF 130
+8.6.3   accessible                               printed 120   PDF 131
+8.6.4   diverges                                 printed 121   PDF 132
+8.6.5   measured_by                              printed 122   PDF 133
+8.6.6   when                                     printed 122   PDF 133
+8.6.7   old                                      printed 123   PDF 134
+8.6.8   duration                                 printed 124   PDF 135
+8.6.9   working_space                            printed 124   PDF 135
+8.6.10  callable                                 printed 125   PDF 136
+8.6.11  captures                                 printed 125   PDF 136
+8.6.12  returns                                  printed 126   PDF 137
+8.6.13  throws                                   printed 127   PDF 138
+8.6.14  continues                                printed 127   PDF 138
+8.6.15  breaks                                   printed 128   PDF 139
+11.10   Loop specifications                      printed 152   PDF 163
+11.10.1 Loop invariants                          printed 153   PDF 164
+11.10.2 Loop variants                            printed 154   PDF 165
+11.10.3 Loop frame conditions                    printed 154   PDF 165
+11.11   Statement (block) specification          printed 155   PDF 166
+11.12   begin-end statement groups               printed 156   PDF 167
+14      Specification/verification of lambdas   printed 203   PDF 214
+
+-------------------------------------------------------------------------------
+STATEMENTS
+-------------------------------------------------------------------------------
+11      JML Statements                           printed 146   PDF 157
+11.1    assert statement                         printed 146   PDF 157
+11.2    assume statement                         printed 147   PDF 158
+11.3    Local ghost variable declarations        printed 148   PDF 159
+11.4    Local model class declarations           printed 148   PDF 159
+11.5    Ghost statement label                    printed 149   PDF 160
+11.6    unreachable statement                    printed 149   PDF 160
+11.7    set statement                            printed 150   PDF 161
+11.8    choose statement                         printed 150   PDF 161
+11.9    repeat statement                         printed 151   PDF 162
+11.10   Loop specifications                      printed 152   PDF 163
+11.11   Statement (block) specification          printed 155   PDF 166
+11.12   begin-end statement groups               printed 156   PDF 167
+11.13   Experimental statement specifications    printed 157   PDF 168
+11.14   Experimental line specifications         printed 157   PDF 168
+
+-------------------------------------------------------------------------------
+EXPRESSIONS
+-------------------------------------------------------------------------------
+12      JML Expressions                          printed 160   PDF 171
+12.1    Syntax                                   printed 161   PDF 172
+12.2    Well-defined expressions                 printed 162   PDF 173
+12.3    Purity (no side-effects)                 printed 164   PDF 175
+12.4    Java expressions                         printed 164   PDF 175
+12.4.1  Conditional expression                   printed 164   PDF 175
+12.4.2  Assignment expression                    printed 164   PDF 175
+12.4.3  Unary expression                         printed 165   PDF 176
+12.4.4  Cast expression                          printed 165   PDF 176
+12.4.5  Prefix ++ and --                         printed 166   PDF 177
+12.4.6  Postfix ++ and --                        printed 166   PDF 177
+12.4.7  Dot selection                            printed 166   PDF 177
+12.4.8  Array element                            printed 166   PDF 177
+12.4.9  Method call                              printed 167   PDF 178
+12.5    JML expressions                          printed 167   PDF 178
+12.5.1  Quantified expressions                   printed 167   PDF 178
+12.5.2  Set comprehension                        printed 170   PDF 181
+12.5.3  Lambda expression                        printed 171   PDF 182
+12.5.4  Binary (infix) expressions               printed 171   PDF 182
+12.5.5  Chaining of comparison operators         printed 172   PDF 183
+12.5.6  Implies operator ==>                     printed 173   PDF 184
+12.5.7  Equivalence <==> / <=!=>                 printed 174   PDF 185
+12.5.8  JML subtype <: / <:=                     printed 174   PDF 185
+12.5.9  Lock ordering <# / <#=                   printed 175   PDF 186
+12.5.10 \result                                  printed 176   PDF 187
+12.5.11 \exception                               printed 176   PDF 187
+12.5.12 \count                                   printed 177   PDF 188
+12.5.13 \values                                  printed 177   PDF 188
+12.5.14 \old, \pre, \past                        printed 178   PDF 189
+12.5.15 \fresh                                   printed 179   PDF 190
+12.5.16 Built-in state labels                    printed 180   PDF 191
+12.5.17 \nonnullelements                        printed 181   PDF 192
+12.5.18 Arithmetic mode scope                    printed 182   PDF 193
+12.5.19 informal expression (*...*)              printed 182   PDF 193
+12.5.20 \type                                    printed 183   PDF 194
+12.5.21 \typeof                                  printed 183   PDF 194
+12.5.22 \arraytype                               printed 184   PDF 195
+12.5.23 \isarray                                 printed 184   PDF 195
+12.5.24 \elemtype                                printed 185   PDF 196
+12.5.25 \erasure                                 printed 186   PDF 197
+12.5.26 \lbl                                     printed 186   PDF 197
+12.5.27 \is_initialized                         printed 187   PDF 198
+12.5.28 \invariant_for                          printed 187   PDF 198
+12.5.29 \static_invariant_for                   printed 187   PDF 198
+12.5.30 \not_modified                           printed 188   PDF 199
+12.5.31 \not_assigned                           printed 189   PDF 200
+12.5.32 \only_assigned / \only_accessed / \only_captured  printed 189  PDF 200
+12.5.33 \only_called                            printed 191   PDF 202
+12.5.34 \lockset and \max                       printed 191   PDF 202
+12.5.35 \reach                                  printed 192   PDF 203
+12.5.36 Store-ref expressions                   printed 192   PDF 203
+12.6    JML resource expressions                 printed 195   PDF 206
+12.6.1  \duration                               printed 195   PDF 206
+12.6.2  \working_space                          printed 196   PDF 207
+12.6.3  \space                                  printed 196   PDF 207
+
+-------------------------------------------------------------------------------
+TYPES
+-------------------------------------------------------------------------------
+5       JML Types                               printed  64   PDF  75
+5.4     \bigint                                  printed  70   PDF  81
+5.6     \real                                    printed  72   PDF  83
+5.7     \TYPE                                    printed  73   PDF  84
+5.8     \datagroup                               printed  76   PDF  87
+5.9     \locset                                  printed  76   PDF  87
+5.10    \set<T>                                  printed  80   PDF  91
+5.11    \seq<T>                                  printed  81   PDF  92
+5.13    \map<K,V>                                printed  85   PDF  96
+5.14    \array<T>                                printed  86   PDF  97
+5.16    \range                                   printed  89   PDF 100
+
+-------------------------------------------------------------------------------
+JMLTK / KeY EXTENSIONS (no direct JML manual section)
+-------------------------------------------------------------------------------
+- merge_point
+- proof scripts (\by), obtain, \from_goal, use_lemma, case/default
+- element/range/Iterable-domain quantifiers
+- three-expression quantifier form (lower-bound; upper-bound; body)
+- \such_that in proof scripts (the manual's \such_that is the represents
+  relational-abstraction form, §7.7 p. 99 / PDF 110)
