@@ -31,10 +31,13 @@ The classes live in three worlds, clearly separated by package and prefix:
 
 The `jml` sub-packages follow the node *kind*: `clauses` holds the contract
 parts (`JmlClause`, `JmlContract`), `expr` the JML-only expressions
-(`JmlQuantifiedExpr`, `JmlLetExpr`, `JmlMultiCompareExpr`, `JmlLabelExpr`),
-`stmt` the JML statements (`JmlGhostStmt`, `JmlRefiningStmt`,
-`JmlBeginStmt`/`JmlEndStmt`), `type` the specification-only types
-(`JmlLogicType`), and `doc` the JML documentation constructs.
+(`JmlQuantifiedExpr`, `JmlQuantifiedVariable`, `JmlLetExpr`,
+`JmlMultiCompareExpr`, `JmlLabelExpr`), `proof` the proof-script commands
+(`JmlProofCmdStmt`, `JmlProofCaseStmt`, `JmlProofObtainStmt`, `JmlProofArg`),
+`body` class-level declarations (`JmlLemmaDeclaration`,
+`JmlRepresentsDeclaration`, …), `stmt` the JML statements (`JmlGhostStmt`,
+`JmlRefiningStmt`, `JmlBeginStmt`/`JmlEndStmt`), `type` the specification-only
+types (`JmlLogicType`), and `doc` the JML documentation constructs.
 
 ## Naming
 
@@ -91,7 +94,7 @@ regenerate:
 
 ```text
 ./scripts/run-generators.sh          # metamodel + core generators + spotless
-./gradlew :javaparser-core:compileJavacc   # regenerate the parser from java.jj
+./gradlew :jmlparser-core:compileJavacc   # regenerate the parser from java.jj
 ```
 
 `./scripts/run-generators.sh` finishes with `git diff --exit-code`, so a

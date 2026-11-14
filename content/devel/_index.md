@@ -17,8 +17,8 @@ needed:
 | ---- | ------- |
 | Compile the sources | `./gradlew compileJava` |
 | Run all tests | `./gradlew test` |
-| Run one test class | `./gradlew test --tests "com.github.javaparser.ast.stmt.ForStmtTest"` |
-| Test one module | `./gradlew :jmlparser-core:test` |
+| Run one test class | `./gradlew :jmlparser-core-testing:test --tests "com.github.javaparser.ast.body.AnnotationDeclarationTest"` |
+| Test one module | `./gradlew :jmlparser-core-testing:test` |
 | Auto-format the code | `./gradlew spotlessApply` |
 | Verify formatting (CI) | `./gradlew spotlessCheck` |
 | Checkstyle | `./gradlew checkstyleMain` |
@@ -36,10 +36,11 @@ that module's `build/libs/` directory, e.g.
 Beside them the build defines:
 
 * **test suites** — `:jmlparser-core-testing`, `:jmlparser-core-testing-bdd`,
-  `:jmlparser-symbol-solver-testing`, `:jmlparser-key-testing`,
+  `:jmlparser-symbol-solver-testing`, `:javaparser-key-testing`,
   `:jmlparser-jml-tests`;
 * **code generators** — `:jmlparser-core-metamodel-generator`,
-  `:jmlparser-core-generators`, `:jmlparser-core-serialization`;
+  `:jmlparser-core-generators`; the serialization support is
+  `:jmlparser-core-serialization`;
 * **tools** — the modules under `:tools` (`cli`, `lint`, `lsp`, `smt`, `stat`,
   `vcg`, `wd`, `web`, `xpath`, `redux`, `jml2java`, `jmlstub`,
   `prettyprinting`, `utils`, …).

@@ -180,6 +180,23 @@ Class-level specification elements are clauses of the `body` package:
 * `spec_public`, `spec_package`, `spec_protected`, `spec_private` widen the
   Java visibility for specification access.
 
+### Lemmas (experimental)
+
+A class-body `lemma` declaration carries a KeY proof script:
+
+```java
+//@ lemma L(int x) \by { auto; };
+//@ lemma nospace(\seq s) \by { oss; use_lemma nospace(x); auto; };
+```
+
+Only the `\by { … }` proof-script form is supported — a definitional
+`lemma … = expr;` or `assert …` form is not part of this port. Parameters may
+use JML logic types (`\seq`, `\bigint`, …); the symbol solver resolves them
+inside the lemma body and its script. A `use_lemma Name(args);` command invokes
+a lemma from a proof script. AST node: `JmlLemmaDeclaration` with an ordered
+`script` (`NodeList<JmlProofStmt>`). The feature is experimental: the language
+surface and the `JmlLemmaDeclaration` API may still change.
+
 ## JML expressions
 
 ### Quantified expressions
@@ -193,6 +210,28 @@ an optional bound-var modifier, a `;`, one or more predicates, and the body:
 //@ ensures (\sum int i; 0 <= i && i < n; a[i]) == total;
 //@ ensures (\num_of int i; 0 <= i && i < n; a[i] == 0) == zeros;
 ```
+
+A binding may also take its values from an array, a range, or an
+`Iterable`/`SequencedCollection`:
+
+```java
+//@ ensures (\forall int e : a; e > 0);           // array elements
+//@ ensures (\forall int i : 0..n; a[i] > 0);      // range
+//@ ensures (\forall var x : list; x != null);     // Iterable elements
+```
+
+Each binding declares exactly one variable. Its static type is the element type
+of the domain — the component type for arrays, `int` for ranges, and the first
+`Iterable<T>` type argument for collections. The form is available for
+`\forall`, `\exists`, `\sum`, `\product` and `\num_of`. Index + element
+multi-bindings such as `int i, T e : a[i]` are not supported. AST node:
+`JmlQuantifiedVariable` (a `VariableDeclarator` with one optional domain).
+
+The core `JmlQuantifierDesugarer` rewrites range and array domains into the
+classic index form for backends that do not implement the sugar; `jml2java`
+emits enhanced-for/index loops, SMT supports ranges and arrays (but rejects
+`Iterable` domains), and the LSP offers an "Expand quantifier domain"
+quick-fix.
 
 The grammar is deliberately more liberal than the reference so that all
 dialects parse: a quantified expression is
@@ -326,6 +365,49 @@ ordinary method invocation (`MethodCallExpr`), not a merge point — and
 `merge_point` can be used as a plain identifier (fields, local variables,
 method names).
 
+### Labels
+
+JML's standard prefix form `LAB: assert …;` (`JmlLabelStmt`) is supported, as
+is KeY's label-after-keyword form:
+
+```java
+//@ assert LAB: i < n;
+//@ set SN: x = x + 1;
+```
+
+The label is an optional `SimpleName` on `JmlExpressionStmt`; both forms
+round-trip through the printers.
+
+### Proof scripts (`\by`)
+
+A formatted JML statement (`assert`, `assume`, `set`, `hence_by`) may carry a
+KeY proof script after `\by`:
+
+```java
+//@ assert (\forall int i; 0 <= i && i < n; a[i] >= 0)
+//@   \by {
+//@     case "positive": auto;
+//@     default: oss;
+//@   };
+```
+
+The script is a sequence of commands and cases. A command may be an `obtain`
+(three forms), a `use_lemma` invocation, or an ordinary proof command; commands
+accept labeled arguments and a `;` or nested `\by { … }` suffix:
+
+```text
+obtain int x = <expr>;          // witness by value
+obtain int y \such_that y > 0;  // witness satisfying a predicate
+obtain int z \from_goal;        // witness from the current goal
+use_lemma Name(args);           // invoke a lemma
+expand on: "x";                 // labeled argument
+```
+
+`obtain` and `use_lemma` are contextual keywords, not reserved words. AST
+nodes: the `JmlProofStmt` hierarchy (`JmlProofCmdStmt`, `JmlProofCaseStmt`,
+`JmlProofObtainStmt`) plus `JmlProofArg`; `JmlExpressionStmt#getScript()`
+returns the command list.
+
 ## Modifiers
 
 JML modifiers appear together with Java modifiers on members and fields
@@ -341,6 +423,11 @@ code   code_java_math   code_bigint_math   code_safe_math
 spec_java_math   spec_bigint_math   spec_safe_math
 peer   rep   read_only
 ```
+
+The six `code_*_math` / `spec_*_math` keywords are KeY math-mode pragmas. They
+are accepted as class/type/method/field/constructor modifiers and stored as
+`Modifier(JML_CODE_*_MATH)` / `Modifier(JML_SPEC_*_MATH)`; type-level pragmas
+are attached to the following type declaration.
 
 For example:
 
@@ -513,11 +600,14 @@ A block annotated with context (start/end markers `{ . ... .. ... ... }` and
 
 AST node: `KeyContextStatementBlock`.
 
-### Static evaluation
+### Static evaluation and expression-position constructs
 
-```java
-#evaluate( <expr> )
-```
+KeY schemas use `#staticEvaluate( <expr> )`, `#createObject( … )` and
+`#lengthReference( … )`. These names are not reserved meta-constructs and have
+no dedicated grammar production: they parse as ordinary `MethodCallExpr` calls
+in expression and statement position. The `#isstatic` token and its
+`IsStaticMC()` production were removed, so `#isstatic(…)` also parses as an
+ordinary `MethodCallExpr`.
 
 ### Schema types
 
@@ -530,35 +620,48 @@ AST node: `KeyTypeSV`, `KeyMetaConstructType`.
 
 ### Meta-construct statements
 
-A series of statement-level meta constructs for rewriting:
+SchemaJava meta-constructs share one function-call-style syntax:
 
-```java
-#unwind-loop ( <label>, <label>, <loopStatement> );
-#unwind-loop-bounded ( <label>, <label>, <loopStatement> );
-#FORINITUNFOLDTRANSFORMER( ForInit );
-#LOOPSCOPEINVARIANTTRANSFORMER( <whileStatement> );
-#unpack ( <forStatement> );
-#for-to-while ( <label>, <label>, <statement> );
-#switchof ( <statement> );
-#do-break ( <labeledStatement> );
-#evaluate-arguments ( <expression> );
-#replace ( <statement>, <variable> );
-#method-call ( [<variable>,] [<variable>,], <primaryExpression> );
-#expand-method-body ( <statement> [, <variable>] );
-#constructor-call ( <variable>, <variable> );
-#special-constructor-call ( <variable> );
-"#post-work" ( consRef = ExpressionSV() ) ";"
-"#static-initialisation" ( activeAccess = PrimaryExpression() ) ";"
-"#resolve-multiple-var-decl" ( stat = Statement() ) ";"
-"#array-post-declaration" ( stat = Statement() ) ";"
-"#init-array-creation" ( sv = VariableSV(), consRef = ExpressionSV() ) ";"
-"#init-array-creation-transient" ( sv = VariableSV(), consRef = ExpressionSV() ) ";"
-"#init-array-assignments" ( sv = VariableSV(), consRef = ExpressionSV() ) ";"
-"#enhancedfor-elim" ( loopStat = ForStatement() ) ";"
-<REATTACHLOOPINVARIANT> ( loopStat = WhileStatement() ) ";"
+```text
+#name ( <arg>, … )
 ```
 
-AST node: `KeyMetaConstruct` and `KeyMetaConstructExpression`.
+`#name` is a schema identifier; a statement is parsed as a meta-construct only
+when the name is in the reserved set. The default set
+(`ParserConfiguration.DEFAULT_KEY_META_CONSTRUCT_NAMES`) is:
+
+```text
+#arrayPostDeclaration      #constructorCall        #doBreak
+#enhancedforElim           #evaluateArguments      #expandMethodBody
+#forInitUnfoldTransformer  #forToWhile             #initArrayAssignments
+#initArrayCreation         #initArrayCreationTransient
+#loopScopeInvariantTransformer  #methodCall        #postWork
+#reattachLoopInvariant     #replace                #resolveMultipleVarDecl
+#specialConstructorCall    #staticInitialisation   #switchToIf
+#unpack                    #unwindLoop             #unwindLoopBounded
+```
+
+Arguments may be schema variables (`#x`), nested meta-constructs
+(`#mn(#elist)`), assignments, labeled statements, or control statements. The
+trailing `;` is optional and the pretty printer omits it, keeping the canonical
+no-semicolon form. The reserved set is configurable:
+
+```java
+ParserConfiguration cfg = new ParserConfiguration()
+        .setKeyMetaConstructNames(Set.of("#forToWhile"));
+```
+
+`setKeyMetaConstructNames` replaces the whole set; an empty set disables
+meta-construct parsing. A statement-level `#name(…)` with a non-reserved name
+parses as an ordinary expression statement (a `MethodCallExpr`). AST node:
+`KeyMetaConstruct` with a single ordered `children()` list; the old
+`getChild()`/`getSchemas()` accessors and the `KeyMetaConstructExpression`
+node are gone.
+
+The expression-position names `#staticEvaluate`, `#createObject` and
+`#lengthReference` are not reserved meta-constructs — they parse as ordinary
+`MethodCallExpr` calls. `#typeof`, `#set`, `#commit`, `#finish`, `#abort` and
+`#catchAll` keep their dedicated tokens/productions.
 
 ## Compatibility notes (deviations)
 
@@ -609,9 +712,9 @@ For maintainers, the structural changes vs. the upstream JavaParser grammar
 
 * **No-body constructors** are allowed (KeY);
 * **New statement node types** — `KeyMetaConstruct`,
-  `KeyMethodCallStatement`, `KeyMethodBodyStatement`,
-  `KeyTransactionStatement`, `KeyLoopScopeBlock`, `KeyCatchAllStatement`,
-  `KeyExecStatement` and their `KeyCcatch*` parts;
+  `KeyMethodCallStmt`, `KeyMethodBodyStatement`,
+  `KeyTransactionStmt`, `KeyLoopScopeBlockStmt`, `KeyCatchAllStmt`,
+  `KeyExecStmt` and their `KeyCcatch*` parts;
 * **New primitive logic types** — `\bigint`, `\real`, `\locset`, `\seq`,
   `\free`, `\map`;
 * **New types** — schema types and meta-types (see SchemaJava);
