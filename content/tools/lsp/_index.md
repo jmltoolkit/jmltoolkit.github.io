@@ -56,6 +56,21 @@ For JML files, just add `jml` to the `auto-mode-alist`:
 {{< figure src="eglot_2.png" width="40%" caption="JML highlighting in emacs">}}
 {{< figure src="eglot_1.png" width="40%" caption="KeY highlighting in emacs" >}}
 
+### Emacs (lsp)
+
+```
+(use-package lsp-mode
+  :ensure t
+  :init (setq lsp-keymap-prefix "C-c l")
+  :hook ((python-mode . lsp)
+         (rust-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+
+```
+
 ### Neovim (nvim-lspconfig)
 
 Add the following configuration to your Neovim `init.lua` to enable LSP support:

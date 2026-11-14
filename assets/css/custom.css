@@ -1,0 +1,8 @@
+.content {
+  font-family: "Times New Roman", Times, serif;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    vertical-align: middle;
+    display: inline;
+}

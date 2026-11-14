@@ -7,10 +7,61 @@ module:
     - path: github.com/imfing/hextra
 
 markup:
-  # allow raw html
   goldmark:
+    duplicateResourceFiles: false
+    extensions:
+      definitionList: true
+      extras:
+        delete:
+          enable: true
+        insert:
+          enable: true
+        mark:
+          enable: true
+        subscript:
+          enable: true
+        superscript:
+          enable: true
+      footnote:
+        backlinkHTML: '&#x21a9;&#xfe0e;'
+        enable: true
+        enableAutoIDPrefix: false
+      linkify: true
+      linkifyProtocol: https
+      strikethrough: true
+      table: true
+      taskList: true
+      typographer:
+        apostrophe: '&rsquo;'
+        disable: false
+        ellipsis: '&hellip;'
+        emDash: '&mdash;'
+        enDash: '&ndash;'
+        leftAngleQuote: '&laquo;'
+        leftDoubleQuote: '&ldquo;'
+        leftSingleQuote: '&lsquo;'
+        rightAngleQuote: '&raquo;'
+        rightDoubleQuote: '&rdquo;'
+        rightSingleQuote: '&rsquo;'
+    parser:
+      attribute:
+        block: false
+        title: true
+      autoDefinitionTermID: false
+      autoHeadingID: true
+      autoIDType: github
+      wrapStandAloneImageWithinParagraph: false
+    renderHooks:
+      image:
+        enableDefault: false
+        useEmbedded: auto
+      link:
+        enableDefault: false
+        useEmbedded: auto
     renderer:
+      hardWraps: false
       unsafe: true
+      xhtml: false
 
   # enable hextra syntax highlight
   highlight:
