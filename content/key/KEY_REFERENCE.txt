@@ -1,0 +1,32 @@
+KEY / PROOFJAVA / SCHEMAJAVA — REFERENCE MAP
+============================================
+
+KeY book:
+  https://www.key-project.org/thebook2/
+
+KeY project:
+  https://github.com/KeYProject/key
+
+Parser grammar:
+  javaparser-core/src/main/javacc/java.jj
+  KeY productions are around lines 8185-8630 (method-frame, exec/ccatch,
+  loop-scope, Java Card, schema variables, contextual blocks, meta-constructs).
+
+Test corpus:
+  javaparser-key-testing/src/test/resources/com/github/javaparser/schemajava.txt
+  javaparser-key-testing/src/test/resources/nameResolution/A.java
+  javaparser-key-testing/src/test/java/com/github/javaparser/ast/key/MethodFrameTests.java
+  javaparser-key-testing/src/test/java/com/github/javaparser/ast/key/sv/KeyMetaConstructTest.java
+  javaparser-key-testing/src/test/java/com/github/javaparser/ast/key/sv/SchemaJavaBulkTest.java
+  jmlparser-jml-tests/src/test/resources/fullexamples/key/completionscopes/src/CompletionScopes.java
+  jmlparser-jml-tests/src/test/resources/fullexamples/key/standard_key/BookExamples/10UsingKeY/Bank-JML/classpath/AbstractButton.java
+
+Notes:
+  - JML constructs are documented in content/jml/, not here.
+  - The old KeyMergePointStmt was removed; "merge_point (expr);" is now an
+    ordinary MethodCallExpr. The JML merge_point statement is in content/jml/.
+  - #staticEvaluate / #createObject / #lengthReference fall back to
+    MethodCallExpr; #isstatic was removed.
+  - KeyMarkerStatement, KeyEscapeExpression, LogicalType,
+    ArrayLengthValueDeclaration, and KeyCatchBranch are AST-only/unparsed or
+    resolver-level; they do not have construct pages.
