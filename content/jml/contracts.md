@@ -81,6 +81,37 @@ The clause kind is an enum, `JmlClauseKind`. The main families are:
 `constraint`, `initially`, and `axiom` are **body declarations**, not contract
 clauses — see [Body declarations](../body-declarations/).
 
+## Heap specifiers
+
+Frame clauses and `accessible` may restrict a clause to one or more heaps.
+A specifier is a simple name in angle brackets, written directly after the
+clause keyword; several specifiers may follow each other:
+
+```jml
+/*@ normal_behavior
+  @ assignable<heap><savedHeap> bArray[bOffset..bOffset+length-1];
+  @ accessible<heap> \nothing;
+  @*/
+void arrayFillNonAtomic(byte[] bArray, int bOffset, int length) { ... }
+```
+
+`<heap>` and `<savedHeap>` are the heap names used by KeY's JavaCard
+specifications; any simple name is accepted.
+All specifiers are kept in the AST, not just the last one:
+
+| Node | Accessor |
+| ---- | -------- |
+| `JmlMultiExprClause` (`assignable`, `modifiable`, `modifies`, `accessible`) | `getHeaps()` |
+| `JmlSimpleExprClause` (`requires`, `ensures`, `loop_invariant`, …) | `getHeaps()` |
+| `JmlClassAccessibleDeclaration` (class-level `accessible x : locs;`) | `getHeaps()` |
+
+For `assignable<heap><savedHeap> bArray[...]` the heap list is
+`["heap", "savedHeap"]`.
+KeY uses the list to build the method frame for both heaps.
+Previously the parser kept only the last specifier (`savedHeap` above), so KeY
+found no frame entry for the base heap and widened the frame to `\everything`.
+See PR #102 and `MultiHeapClauseTest` in `jmlparser-jml-tests`.
+
 ## Method and constructor contracts
 
 ```jml
