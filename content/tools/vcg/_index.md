@@ -5,6 +5,10 @@ weight: 75
 
 # Verification Condition Generator
 
+{{< callout type="warning" >}}
+The JMLtk VCG is **experimental**. Encoded semantics, CLI options and condition IDs may change between releases; unsupported constructs are rejected with structured diagnostics instead of being approximated.
+{{< /callout >}}
+
 The **VCG** (verification condition generator) translates a Java method or
 constructor annotated with JML into a set of SMT formulas — the *verification
 conditions* — that an SMT solver (Z3, via the [SMT module](../smt/)) checks to
@@ -31,6 +35,29 @@ Every proof obligation comes out as a *negated* assertion in its own
 `push / check-sat / pop` block with a `:named` annotation — the solver must
 answer **unsat** for the obligation to hold. See
 [Proof Obligations & SMT Encoding](obligations/) for worked examples.
+
+## Quick start
+
+Build the CLI with `./gradlew :tools:cli:installDist`, annotate a method with JML, and verify the file:
+
+```java
+public class Abs {
+    //@ requires x >= -100;
+    //@ ensures \result >= 0;
+    public static int abs(int x) {
+        return x < 0 ? -x : x;
+    }
+}
+```
+
+```text
+$ tools/cli/build/install/jmltk/bin/jmltk vcg Abs.java --unbounded
+  ok   Abs#abs(int)#postcondition-1@2:9  postcondition
+  ok   Abs#abs(int)#postcondition-2@2:9  postcondition
+2 conditions, 0 failing
+```
+
+`jmltk vcg` verifies every method or constructor that carries a JML contract; callables without a contract are skipped. The default mode is BOUNDED (bit-vectors with Java overflow); `--unbounded` switches to mathematical integers.
 
 ## Capabilities
 
@@ -94,15 +121,12 @@ jmltk vcg [options] File.java ...
 Per-condition output lines look like
 
 ```text
-  ok   VcgExamples#abs(int)#postcondition-1@8:0  postcondition of method abs
-  FAIL VcgExamples#buggy(int)#postcondition-1@14:0  postcondition of method buggy
-  ???? VcgExamples#opaque(int)#postcondition-1@22:0  postcondition of method opaque
+  ok   KeyReverseArray#reverse()#nullcheck-1@22:29  dereference at line 22
+  FAIL KeyReverseArray#reverse2(int[])#array-store-9@53:32  array store bound at line 53
+  ???? KeyReverseArray#reverse()#loop-invariant-init-3@-:-  loop invariant initially valid at line 30
 ```
 
-`ok` means the obligation is proven (unsat), `FAIL` that a counterexample model
-was found (sat), `????` that the solver could not decide. The condition id has
-the form `<class>#<method>(<params>)#<kind>-<n>@<line>:<column>`; the run ends
-with a `N conditions, M failing` summary.
+`ok` means the obligation is proven (unsat), `FAIL` that a counterexample model was found (sat), `????` that the solver could not decide. The condition id has the form `<class>#<method>(<params>)#<kind>-<n>@<line>:<column>`; the run ends with a `N conditions, M failing` summary.
 
 {{< callout type="info" >}}
 `????`/UNKNOWN is a solver-side outcome: Z3 found no model and could not prove
@@ -150,6 +174,33 @@ JML-annotated methods. Activating it runs the generator and reports the
 `proven / failed / unknown` counts (plus failing condition descriptions) in the
 editor, without leaving it. See the [LSP](../lsp/) documentation.
 
+## Examples
+
+The repository keeps the four [KeY `firstTouch`](https://github.com/jmltoolkit/jmltk/tree/main/tools/cli/src/test/resources/key/firstTouch) teaching programs as end-to-end fixtures; the shell tests under `tools/cli/shell-tests/vcg/` pin their exact verdicts.
+
+| Program | Demonstrates | Command | Result |
+| ------- | ------------ | ------- | ------ |
+| `06-BinarySearch` | sortedness `\forall`, `\exists` postcondition, loop invariant | `jmltk vcg BinarySearch.java --loop-invariant` | 20 conditions, 0 failing |
+| `08-Java5` | `\sum` over `\index` and `a.length` | `jmltk vcg For.java --unbounded --loop-invariant` | 11 conditions, 0 failing |
+| `10-SITA` | loop contracts and `--vcg-exclude` | `jmltk vcg SITA3.java --vcg-exclude "KeySITA3#rearrange()*"` | 20 conditions, 0 failing |
+| `05-ReverseArray` | honest UNKNOWN/FAIL when the contract is too weak | `jmltk vcg ReverseArray.java --unbounded --loop-invariant` | 31 conditions, 2 failing |
+
+The `08-Java5` sum is the canonical `\sum` example, with the KeY loop-position pseudo-variable `\index` in the invariant:
+
+```jml
+/*@ maintaining s == (\sum int j; 0 <= j && j < \index; a[j]);
+  @ maintaining 0 <= \index && \index <= a.length;
+  @ decreasing a.length - \index;
+  @*/
+for (int i : a) s += i;
+```
+
+See [Proof Obligations & SMT Encoding](obligations/) for the generated recursive summation, and the [quick start](#quick-start) for a minimal method.
+
+## Known limits
+
+Constructs the engine cannot model are rejected up front with a structured `UnsupportedFeatureException` instead of being silently mis-encoded: multi-dimensional array creation, lambdas, method references, anonymous classes, switch expressions, enums, Java `assert`, JML keywords outside the supported set, and every quantifier binder except `\forall`, `\exists` and `\sum` — including element/range-domain forms such as `\forall int e : a; …`, whose domain has no desugaring. A callee with neither a JML contract nor a body is rejected unless `--allow-unrefined-calls` opts into a sound havoc. `indexOf(String)` wrong-position claims are falsifiable only in UNBOUNDED mode, and BOUNDED-mode character reads compare 16-bit extracts of the 32-bit codepoint model.
+
 ## Further reading
 
 * [JML Binders & Quantified Expressions](binders/) — which binders are
@@ -159,7 +210,6 @@ editor, without leaving it. See the [LSP](../lsp/) documentation.
   is, every obligation kind, and real encoded examples.
 * [API](api/) — using the `Vcg`, `VcgResult` and `VcgFacade` API
   programmatically.
-* The soundness pass that closed the semantic gaps between the encoded model
-  and Java/JML is documented in `doc/vcg-semantics-plan.md` in the source
-  repository (phases P1.1–P6.1); the remaining divergences are listed in the
-  [PR description](https://github.com/jmltoolkit/jmltk/pull/69).
+* The soundness pass (phases P1.1–P6.1) that closed the semantic gaps between
+  the encoded model and Java/JML is recorded in `doc/vcg-semantics-plan.md` in
+  the source repository.

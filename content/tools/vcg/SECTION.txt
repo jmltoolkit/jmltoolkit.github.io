@@ -1,0 +1,96 @@
+SECTION: VCG documentation
+==========================
+
+Intention
+---------
+content/tools/vcg/ is the user-facing chapter for the verification condition generator (`:tools:vcg`, source: tools/vcg in the JMLtk repository). The tool is experimental and the chapter must say so. It should let a JML user
+understand what the VCG proves, run `jmltk vcg` on a contract, read the per-condition verdicts, and
+pick the right loop/call/check options, without reading the Kotlin source.
+
+Audience: JML users and tool builders. Keep implementation details about AST classes out of the
+chapter; link to the API page or the source when a feature needs it.
+
+Scope of the chapter
+--------------------
+- What the VCG does: JML contract → SMT-LIB → Z3 verdict, with the pipeline diagram.
+- Quick start: minimal JML method, CLI command, real output.
+- Capabilities matrix: contracts, arithmetic modes, loops, calls, runtime checks, references, strings, quantifiers.
+- CLI options and the result format (`ok` / `FAIL` / `????`, condition ids, summary line).
+- Editor support: the "Verify method (VCG)" code lens.
+- Examples: the four KeY `firstTouch` programs with exact commands and verdicts, plus the `\sum` snippet.
+- Known limits and rejected constructs.
+- Links to `binders/`, `obligations/`, `api/`.
+- A prominent warning that the tool is experimental.
+
+Source of truth to check before editing
+---------------------------------------
+- CLI options, defaults and output: tools/cli/src/main/kotlin/io/github/jmltoolkit/cli/VcgCommand.kt
+- Options model and defaults: tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/VcgOptions.kt
+- Condition kinds, ids and summaries: tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/VcgResult.kt
+- Binder/quantifier encoding: tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/ExprTranslator.kt
+- Obligation generation: tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/Vcg.kt
+- Golden SMT snapshots: tools/vcg/src/test/resources/golden/
+- Expected verdicts: tools/cli/shell-tests/vcg/{search,sum,sita,reverse}.txt and
+  tools/vcg/src/test/kotlin/VcgSemanticsTest.kt
+- Feature/provenance wording: jmltk-changelog.md, doc/vcg-semantics-plan.md, PR #69
+  (https://github.com/jmltoolkit/jmltk/pull/69)
+
+Commands used to gather the facts
+---------------------------------
+    sed -n '1,200p' tools/cli/src/main/kotlin/io/github/jmltoolkit/cli/VcgCommand.kt
+    sed -n '1,200p' tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/VcgOptions.kt
+    grep -n "class VerificationCondition\|enum class Status" tools/vcg/src/main/kotlin/io/github/jmltoolkit/vcg/VcgResult.kt
+    ls tools/cli/src/test/resources/key/firstTouch/
+    cat tools/cli/shell-tests/vcg/*.txt
+    ls tools/vcg/src/test/resources/golden/
+    gh pr view 69 --json title,body,mergeable
+    gh pr checks 69 --watch --interval 60
+
+Commands to build/preview the documentation (from the site repository)
+----------------------------------------------------------------------
+    cd ~/work/jmltoolkit.github.io
+    hugo server --logLevel debug --disableFastRender -p 1313
+    hugo --gc --minify --destination /tmp/jmltk-docs-build --cleanDestinationDir
+
+Commands to verify the examples against the code (from the JMLtk repository)
+---------------------------------------------------------------------------
+    ./gradlew :tools:cli:installDist
+    B=tools/cli/build/install/jmltk/bin/jmltk
+    F=tools/cli/src/test/resources/key/firstTouch
+    $B vcg $F/05-ReverseArray/ReverseArray.java --unbounded --loop-invariant
+    $B vcg $F/06-BinarySearch/BinarySearch.java --loop-invariant
+    $B vcg $F/08-Java5/For.java --unbounded --loop-invariant
+    $B vcg $F/10-SITA/SITA3.java --vcg-exclude 'KeySITA3#rearrange()*'
+    UPDATE_GOLDEN=1 ./gradlew :tools:vcg:test --tests "*VcgGoldenQueriesTest*"
+
+Commands to publish the chapter
+-------------------------------
+    git -C ~/work/jmltoolkit.github.io status --short
+    git -C ~/work/jmltoolkit.github.io add content/tools/vcg/
+    git -C ~/work/jmltoolkit.github.io commit -m "docs(vcg): ..."
+    git -C ~/work/jmltoolkit.github.io push origin main
+
+Expected content and quality
+----------------------------
+- Short and descriptive. A user should reach a first verdict in a few minutes.
+- State clearly that the tool is experimental. Keep the warning callout at the top of the chapter.
+- No unnecessary line breaks: keep each paragraph and each list item on one line. This user preference overrides the ~80-column hard wrap suggested in the site AGENTS.md.
+- Examples are mandatory: the quick-start `Abs` method, the four KeY `firstTouch` programs with their exact verdicts, and the `\sum` loop-contract snippet. Where a page shows SMT, quote the real encoding from a golden file.
+- Verify, do not invent: every command, option, verdict and condition count must be reproduced with the commands above. Update the page when the code moves.
+- Tables for option / obligation / binder / capability matrices; prose only where the reason matters (range guards vs. conjoins, lazy axioms, the BOUNDED length fold).
+- Use `jml`/`java`/`kotlin` fences for code, `lisp` for SMT-LIB and `text` for CLI output.
+- Relative links must resolve; run the production build before pushing. Never edit `public/` or `resources/`.
+- The documentation CI (GitHub Pages workflow) must stay green.
+
+What to update when the VCG changes
+-----------------------------------
+1. Re-run the four `firstTouch` commands and the quick-start example; update counts and outputs.
+2. Check new or changed CLI options in VcgCommand.kt and mirror them in the option table.
+3. Check new obligation kinds in VcgResult.kt and add them to the obligations matrix.
+4. Check changed defaults in VcgOptions.kt (arithmetic mode, checks, call strategy).
+5. Check rejected constructs and binder support against the tests; update "Known limits".
+6. Regenerate goldens when encodings change, then refresh the SMT snippets in obligations.md.
+7. Rebuild with Hugo, preview locally, then commit with `docs(vcg): ...`.
+
+Last verified: 2026-11-15, on PR #69 rebased onto `main` `d30a30786` (four `firstTouch` verdicts:
+31/2, 20/0, 11/0, 20/0).
