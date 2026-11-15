@@ -7,6 +7,10 @@ weight: 40
 
 `jmltk-lsp` is the JMLtk language server. It adds JML and KeY support to any LSP-capable editor: syntax-aware diagnostics, document symbols, hover documentation, semantic highlighting and code actions for Java sources with embedded JML, standalone `.jml` files and KeY `.key` files. The server uses the JMLtk parser, so it understands contracts, clauses, JML statements and KeY proof scripts, and it reports the JML lint rules from [lint](../lint/) as diagnostics.
 
+{{< callout type="warning" >}}
+The JMLtk LSP server is **experimental**. Features, command IDs and `jmlproject.json` options may change between releases; use it alongside your editor's regular Java tooling.
+{{< /callout >}}
+
 ```java
 class Account {
     //@ ghost int balance;

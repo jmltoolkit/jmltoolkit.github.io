@@ -4,8 +4,8 @@ SECTION: JMLtk LSP documentation
 Intention
 ---------
 content/tools/lsp/ is the user-facing chapter for the JMLtk language server
-(`jmltk-lsp`, source: tools/lsp in the JMLtk repository). It should let a new
-user install the server, connect it to their editor, understand the supported
+(`jmltk-lsp`, source: tools/lsp in the JMLtk repository). The tool is
+experimental and the chapter must say so. It should let a new user install the server, connect it to their editor, understand the supported
 JML/KeY features, and configure or troubleshoot the server without reading the
 Kotlin source.
 
@@ -24,6 +24,7 @@ Scope of the chapter
 - Editor setup (eglot/lsp-mode for Emacs, nvim-lspconfig for Neovim).
 - Troubleshooting and the current Visual Studio Code status.
 - A link to the parser PR that introduced a feature set.
+- A prominent warning that the LSP server is experimental.
 
 Source of truth to check before editing
 ---------------------------------------
@@ -69,6 +70,9 @@ Commands to publish the chapter
 Expected content and quality
 ----------------------------
 - Short and descriptive. Users should reach a working setup in a few minutes.
+- State clearly that the tool is experimental. Keep the warning callout near the
+  top of the chapter and repeat the experimental status in feature descriptions
+  when a capability is only advertised or likely to change.
 - No unnecessary line breaks: keep each paragraph and each list item on one
   line. This user preference overrides the ~80-column hard wrap suggested in
   the site AGENTS.md.
