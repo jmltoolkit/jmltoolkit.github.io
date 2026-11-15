@@ -1,0 +1,76 @@
+Intention
+---------
+Document the JML-aware pretty printer (`:tools:prettyprinting`) as a library
+(`JmlFmt`) and as a command-line tool (`jmltk-pp`, `jmltk pp`, `jmltk format`),
+including its syntax-highlighting renderers. The chapter is for users who want
+to format or highlight Java/JML sources; the `mlpp` research extractor is
+mentioned only as non-user-facing tooling.
+
+Scope of the chapter
+--------------------
+- What the module does and how it preserves `/*@ ... @*/` and `//@` comments.
+- The `JmlFmt` / `JmlCommentsHelper` API.
+- The complete CLI surface: every option, its default, and the renderer
+  formats (`text`, `ansi`, `html`, `latex`), including `--minted`,
+  `--latex-raw`, `--latex-preamble`, `--html-full`, `--css`, `--language`,
+  `--snippet`, `-w`, `--no-color`.
+- Stdin/multiple-file behaviour, option conflicts, exit codes, and the
+  documented caveat that snippet formatting may normalize comments.
+- A short pointer to the `mlpp` feature extractor.
+Out of scope: the google-java-format engine internals and the parser's JML
+syntax (see `content/jml/`).
+
+Source of truth to check before editing
+---------------------------------------
+- `tools/prettyprinting/src/main/kotlin/io/github/jmltoolkit/prettyprinting/PpCommand.kt`
+  — options, defaults, validation, exit codes.
+- `tools/prettyprinting/build.gradle.kts` — `applicationName = "jmltk-pp"`.
+- `tools/cli/src/main/kotlin/io/github/jmltoolkit/cli/Main.kt` — `pp` command
+  and `format` alias.
+- `tools/prettyprinting/src/main/kotlin/io/github/jmltoolkit/prettyprinting/`
+  (`JmlFmt.kt`, `JmlCommentsHelper` usage, `HtmlRenderer.kt`,
+  `LatexRenderer.kt`, `AnsiRenderer.kt`, `StyleClass.kt`).
+- `tools/cli/shell-tests/prettyprinting/` — end-to-end expectations for the
+  CLI text and renderer output.
+- `jmltk-changelog.md` for version wording; PR #101 for the CLI work.
+
+Commands used to gather the facts
+---------------------------------
+    tools/cli/build/install/jmltk/bin/jmltk pp --help
+    ./gradlew :tools:cli:installDist
+    python3 scripts/shelltester.py tools/cli/shell-tests
+    grep -n "by option" tools/prettyprinting/src/main/kotlin/io/github/jmltoolkit/prettyprinting/PpCommand.kt
+
+Commands to build/preview the documentation
+-------------------------------------------
+    hugo server --logLevel debug --disableFastRender -p 1313
+    hugo --gc --minify --destination /tmp/jmltk-docs-build --cleanDestinationDir
+
+Commands to publish the chapter
+-------------------------------
+Push to `main`; the site is published from the repository root by the
+documentation workflow. Run the production build before pushing.
+
+Expected content and quality
+----------------------------
+- Example-driven: at least one command per output format and a table of all
+  options with defaults.
+- Every claim about an option/exit code must be traceable to `PpCommand.kt`.
+- Keep the library (`JmlFmt`) and CLI sections separate; both must be usable
+  without reading the source.
+- Hard-wrap prose at ~80 columns; no H1 (the front-matter title is printed).
+- `jml`, `java`, `kotlin`, and `bash` fences where appropriate.
+
+What to update when the tool changes
+------------------------------------
+- Option/default/exit-code changes: update the option table and examples.
+- New renderer or output format: add a row and a short example.
+- Renames of `jmltk-pp` / `pp` / `format`: update the heading, synopsis, and
+  `SECTION.txt` source-of-truth list.
+- Changes to comment preservation: update the `JmlFmt` / caveat paragraphs.
+- New shell tests: reference their directory.
+
+Last verified
+-------------
+2026-11-15 — `jmltk pp --help` checked against `PpCommand.kt`; shell tests
+13/13 pass on branch `weigl/prettyprint-cli` (PR #101).
