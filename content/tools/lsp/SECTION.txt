@@ -1,0 +1,98 @@
+SECTION: JMLtk LSP documentation
+================================
+
+Intention
+---------
+content/tools/lsp/ is the user-facing chapter for the JMLtk language server
+(`jmltk-lsp`, source: tools/lsp in the JMLtk repository). It should let a new
+user install the server, connect it to their editor, understand the supported
+JML/KeY features, and configure or troubleshoot the server without reading the
+Kotlin source.
+
+Audience: end users (editor users), not JMLtk developers. Keep implementation
+details about AST classes out of this chapter; link to them only when a feature
+needs it (for example the keyword-node changes behind the document symbols).
+
+Scope of the chapter
+--------------------
+- Overview of what the server does and which files it understands
+  (.java with embedded JML, .jml, .key).
+- Installation and the CLI transports/options of `jmltk-lsp`.
+- `jmlproject.json` project configuration and its defaults.
+- Feature list: diagnostics, document/workspace symbols, hover and navigation,
+  semantic tokens, code actions. One short example per feature where useful.
+- Editor setup (eglot/lsp-mode for Emacs, nvim-lspconfig for Neovim).
+- Troubleshooting and the current Visual Studio Code status.
+- A link to the parser PR that introduced a feature set.
+
+Source of truth to check before editing
+---------------------------------------
+- CLI options and transports: tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/main.kt
+- Server capabilities (diagnostics, symbols, semantic tokens, code actions):
+  tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/JmlLanguageServer.kt
+  tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/JmlTextDocumentService.kt
+- Code-action ids, titles and whether they actually edit:
+  tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/actions/*.kt
+- Project configuration defaults:
+  tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/project/ProjectDefinition.kt
+  tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/project/Project.kt
+  tools/lsp/workspace/jmlproject.json
+- Emacs configuration shipped in the repository: tools/lsp/eglot.el
+- Feature/provenance wording: jmltk-changelog.md, PR #61
+  (https://github.com/jmltoolkit/jmltk/pull/61)
+
+Commands used to gather the facts
+---------------------------------
+    ls tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/actions
+    grep -n "override val title" tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/actions/*.kt
+    grep -n "override val id" tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/actions/*.kt
+    sed -n '1,160p' tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/main.kt
+    sed -n '1,120p' tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/JmlLanguageServer.kt
+    cat tools/lsp/workspace/jmlproject.json
+    cat tools/lsp/eglot.el
+    gh pr view 61 --json number,title,body,mergeable
+    gh pr checks 61 --watch --interval 30
+
+Commands to build/preview the documentation (from the site repository)
+-----------------------------------------------------------------------
+    cd ~/work/jmltoolkit.github.io
+    hugo server --logLevel debug --disableFastRender -p 1313
+    hugo --gc --minify --destination /tmp/jmltk-docs-build --cleanDestinationDir
+
+Commands to publish the chapter
+-------------------------------
+    git -C ~/work/jmltoolkit.github.io status --short
+    git -C ~/work/jmltoolkit.github.io add content/tools/lsp/_index.md
+    git -C ~/work/jmltoolkit.github.io commit -m "docs(lsp): ..."
+    git -C ~/work/jmltoolkit.github.io push origin main
+
+Expected content and quality
+----------------------------
+- Short and descriptive. Users should reach a working setup in a few minutes.
+- No unnecessary line breaks: keep each paragraph and each list item on one
+  line. This user preference overrides the ~80-column hard wrap suggested in
+  the site AGENTS.md.
+- Front matter has `title` and `weight`; no H1 and no repeated title.
+- Examples are mandatory: a JML snippet, CLI invocations, a complete
+  `jmlproject.json`, and working eglot/lsp-mode/nvim-lspconfig snippets.
+- Use `jml`/`java` fences for code, `json` for configuration, `elisp`/`lua`
+  for editor setup, and `shell` for commands. Keep tables for option and
+  action matrices.
+- Be accurate about maturity: only describe actions as applying edits when
+  `createCodeAction` returns a `WorkspaceEdit`/`CodeAction` edit. Mark
+  advertised-but-not-editing actions explicitly.
+- Keep `jmlproject.json` defaults identical to
+  tools/lsp/workspace/jmlproject.json.
+- Link the parser PR/changelog entry for new features.
+- Relative links must resolve; run the production build before pushing. Never
+  edit `public/` or `resources/`.
+- The documentation CI (GitHub Pages workflow) must stay green.
+
+What to update when the LSP changes
+-----------------------------------
+1. Check the action table in tools/lsp/src/main/kotlin/io/github/jmltoolkit/lsp/actions/.
+2. Check CLI options in main.kt.
+3. Check server capabilities in JmlLanguageServer.kt (new provider or filter).
+4. Check jmlproject.json defaults.
+5. Update the example JML snippet only if the parser feature set changed.
+6. Rebuild with Hugo, preview locally, then commit with `docs(lsp): ...`.
