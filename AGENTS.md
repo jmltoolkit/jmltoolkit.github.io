@@ -36,6 +36,17 @@ JMLtk/JavaParser.
   and `ast/key/`. Consult `jmltk-changelog.md` for release/version wording.
 - `content/intro/getting-started.md` shows the latest published Maven/Gradle version; bump it on release.
 
+## Section intent files
+
+Each substantial chapter should have a `SECTION.txt` next to its `_index.md`. It is not rendered content: it records the section's intention, scope, sources of truth, the commands used to verify facts, the expected content/quality, and a "last verified" note for later agents. Read it before editing the chapter and update it in the same commit whenever the chapter's structure or facts change.
+
+Current files:
+
+- `content/tools/lsp/SECTION.txt` — language server (`jmltk-lsp`).
+- `content/tools/vcg/SECTION.txt` — verification condition generator (`jmltk vcg`).
+
+When adding a new directory under `content/`, create a `SECTION.txt` with these headings: Intention, Scope of the chapter, Source of truth to check before editing, Commands used to gather the facts, Commands to build/preview the documentation, Commands to publish the chapter, Expected content and quality, What to update when the tool changes, Last verified.
+
 - Use the shortcodes of HEXTRA https://imfing.github.io/hextra/docs/guide/shortcodes/:
   - Callouts: `{{< callout type="info" >}}`
   - Cards: `{{< cards >}} {{< card link="../link" title="T" icon="warning" >}}...`
